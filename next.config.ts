@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  trailingSlash: true,
-
   images: {
-    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "shop.nalalifeline.org" },
       { protocol: "https", hostname: "nalalifeline.org" },
