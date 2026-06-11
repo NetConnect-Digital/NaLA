@@ -68,7 +68,7 @@ function SponsorCard({ item }: { item: AddOnCard }) {
 
 export function OtherSponsorships({ items }: { items: AddOnCard[] }) {
   return (
-    <Section className="bg-white md:pt-0">
+    <Section className="bg-white">
       <Container>
         <h2 className="text-center text-[26px] md:text-[36px]">
           Other Sponsorship Opportunities
