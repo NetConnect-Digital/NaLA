@@ -43,9 +43,11 @@ export async function getProducts(
     orderby?: string;
     order?: "asc" | "desc";
   } = {},
+  opts: { revalidate?: number } = {},
 ): Promise<Product[]> {
   return storeGet<Product[]>("/products", {
     params: { per_page: 100, ...params },
+    revalidate: opts.revalidate,
   });
 }
 

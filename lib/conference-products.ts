@@ -3,6 +3,7 @@ import {
   OTHER_SPONSORSHIPS,
   SPONSOR_TIERS,
   REG_WINDOWS,
+  REG_INCLUDES,
   type SponsorTier,
   type RegWindow,
 } from "./conference";
@@ -53,7 +54,9 @@ const cleanText = (html: string) =>
     .replace(/<[^>]*>/g, " ")
     .replace(/&amp;/g, "&")
     .replace(/&#8211;/g, "–")
+    .replace(/&#8217;/g, "’")
     .replace(/&nbsp;/g, " ")
+    .replace(/�/g, "—")
     .replace(/\s+/g, " ")
     .trim();
 
@@ -251,4 +254,16 @@ export function buildRegWindows(products: Product[]): RegWindow[] {
   });
 
   return windows.every(Boolean) ? (windows as RegWindow[]) : REG_WINDOWS;
+}
+
+/** Ticket "what's included" list, parsed from the funding ticket's short_description. */
+export function buildIncludes(products: Product[]): string[] {
+  const ticket = products.find(
+    (p) =>
+      p.categories.some((c) => c.slug === "ticket") &&
+      /funding members/i.test(p.name) &&
+      !/non-?funding/i.test(p.name),
+  );
+  const items = parsePerks(ticket?.short_description);
+  return items.length ? items : REG_INCLUDES;
 }

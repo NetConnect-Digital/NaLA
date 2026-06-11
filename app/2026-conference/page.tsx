@@ -3,6 +3,7 @@ import {
   buildAddOnCards,
   buildTierCards,
   buildRegWindows,
+  buildIncludes,
   priceToNumber,
 } from "@/lib/conference-products";
 import type { Product } from "@/lib/types";
@@ -13,7 +14,8 @@ import { RegistrationSection } from "@/components/conference/RegistrationSection
 import { SponsorshipPackages } from "@/components/conference/SponsorshipPackages";
 import { OtherSponsorships } from "@/components/conference/OtherSponsorships";
 
-export const revalidate = 300;
+// Always fetch fresh from WooCommerce so backend edits show up immediately.
+export const revalidate = 0;
 
 export const metadata = {
   title: "2026 NaLA Annual Conference",
@@ -22,7 +24,9 @@ export const metadata = {
 };
 
 export default async function ConferencePage() {
-  const products = await getProducts({ per_page: 100 }).catch(() => []);
+  const products = await getProducts({ per_page: 100 }, { revalidate: 0 }).catch(
+    () => [],
+  );
 
   const tickets = products.filter((p) =>
     p.categories.some((c) => c.slug === "ticket"),
@@ -49,6 +53,7 @@ export default async function ConferencePage() {
   const otherSponsors = buildAddOnCards(products);
   const tiers = buildTierCards(products);
   const regWindows = buildRegWindows(products);
+  const regIncludes = buildIncludes(products);
 
   return (
     <>
@@ -57,6 +62,7 @@ export default async function ConferencePage() {
       <ConferenceLocation />
       <RegistrationSection
         windows={regWindows}
+        includes={regIncludes}
         fundingTicket={fundingTicket}
         nonFundingTicket={nonFundingTicket}
       />

@@ -1,11 +1,6 @@
 import { Container, Section } from "@/components/ui/Container";
 import { TierButton } from "./TierButton";
-import {
-  REG_INCLUDES,
-  windowState,
-  usd,
-  type RegWindow,
-} from "@/lib/conference";
+import { windowState, usd, type RegWindow } from "@/lib/conference";
 
 function MailLink() {
   return (
@@ -70,12 +65,14 @@ function PriceCard({
   accentClass,
   price,
   href,
+  includes,
 }: {
   window: RegWindow;
   headerClass: string;
   accentClass: string;
   price: number;
   href?: string;
+  includes: string[];
 }) {
   const state = windowState(w);
   const open = state === "open";
@@ -93,7 +90,7 @@ function PriceCard({
         </div>
 
         <ul className="mt-5 text-center">
-          {REG_INCLUDES.map((inc) => (
+          {includes.map((inc) => (
             <li
               key={inc}
               className="px-5 py-2.5 text-[13px] text-slate odd:bg-[#e8e8e8] even:bg-[#f3f3f3]"
@@ -125,6 +122,7 @@ function PricingGroup({
   headerClass,
   accentClass,
   windows,
+  includes,
   product,
   disclaimer,
   divider = false,
@@ -134,6 +132,7 @@ function PricingGroup({
   headerClass: string;
   accentClass: string;
   windows: RegWindow[];
+  includes: string[];
   product?: TicketRef;
   disclaimer: React.ReactNode;
   divider?: boolean;
@@ -159,6 +158,7 @@ function PricingGroup({
               accentClass={accentClass}
               price={price}
               href={href}
+              includes={includes}
             />
           );
         })}
@@ -171,10 +171,12 @@ function PricingGroup({
 
 export function RegistrationSection({
   windows,
+  includes,
   fundingTicket,
   nonFundingTicket,
 }: {
   windows: RegWindow[];
+  includes: string[];
   fundingTicket?: TicketRef;
   nonFundingTicket?: TicketRef;
 }) {
@@ -191,6 +193,7 @@ export function RegistrationSection({
           headerClass="bg-[#6a2c91]"
           accentClass="text-[#6a2c91]"
           windows={windows}
+          includes={includes}
           product={fundingTicket}
           disclaimer={FUNDING_DISCLAIMER}
           divider
@@ -202,6 +205,7 @@ export function RegistrationSection({
           headerClass="bg-navy"
           accentClass="text-navy"
           windows={windows}
+          includes={includes}
           product={nonFundingTicket}
           disclaimer={NON_FUNDING_DISCLAIMER}
         />
