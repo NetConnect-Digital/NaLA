@@ -20,3 +20,4 @@ export const STRIPE_PUBLISHABLE_KEY =
 /** httpOnly cookie names */
 export const AUTH_COOKIE = "nala_token";
 export const CART_TOKEN_COOKIE = "nala_cart_token";
+export const CART_NONCE_COOKIE = "nala_cart_nonce";

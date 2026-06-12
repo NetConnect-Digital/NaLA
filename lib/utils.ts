@@ -28,3 +28,26 @@ export function formatPrice(
 export function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/&[a-z]+;/gi, " ").trim();
 }
+
+/** Remove WPBakery / WordPress shortcodes (e.g. [vc_row], [vc_column_text css="…"]) from HTML. */
+export function stripShortcodes(html: string): string {
+  if (!html) return html;
+  return html
+    .replace(/\[\/?[a-z][a-z0-9_]*[^\]]*\]/gi, "")
+    .replace(/(?:\s*\n){3,}/g, "\n\n")
+    .trim();
+}
+
+/** Decode the HTML entities WooCommerce returns in plain-text fields (names, etc.). */
+export function decodeEntities(input: string): string {
+  if (!input) return input;
+  return input
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}

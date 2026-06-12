@@ -61,6 +61,10 @@ a {
   color: inherit;
 }
 
+b, strong {
+  font-weight: 700;
+}
+
 /* Rich content (WordPress page HTML rendered via dangerouslySetInnerHTML) */
 .prose-nala :where(p, ul, ol) {
   margin-bottom: 1rem;
@@ -68,6 +72,14 @@ a {
 }
 .prose-nala :where(h2, h3) {
   margin: 1.5rem 0 0.75rem;
+  font-weight: 600;
+}
+.prose-nala :where(h3) {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+.prose-nala :where(h2) {
+  font-size: 1.5rem;
 }
 .prose-nala a {
   color: var(--color-cyan-700);

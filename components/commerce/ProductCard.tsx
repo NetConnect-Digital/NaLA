@@ -2,8 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { PriceTag } from "./PriceTag";
-import { AddToCart } from "./AddToCart";
-import { stripHtml } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
   const img = product.images[0];
@@ -41,26 +39,23 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
         )}
         <Link href={`/product/${product.slug}`}>
-          <h3 className="text-base leading-snug hover:text-cyan-700">
+          <h3 className="mt-1 text-[18px] leading-snug hover:text-cyan-700">
             {product.name}
           </h3>
         </Link>
-        {product.short_description && (
-          <p className="mt-2 line-clamp-3 text-sm text-ink-soft">
-            {stripHtml(product.short_description)}
-          </p>
-        )}
-        <div className="mt-auto flex items-center justify-between pt-4">
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <PriceTag prices={product.prices} />
-          {product.has_options ? (
+          {soldOut ? (
+            <span className="inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-line px-4 py-2 font-sans text-xs font-bold uppercase tracking-wide text-muted md:px-5 md:text-sm">
+              Sold Out
+            </span>
+          ) : (
             <Link
               href={`/product/${product.slug}`}
-              className="text-sm font-bold text-cyan-700 hover:underline"
+              className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-cyan px-4 py-2 font-sans text-xs font-bold uppercase tracking-wide !text-white transition-colors hover:bg-[#0096c7] md:px-5 md:text-sm"
             >
-              Select options →
+              {product.has_options ? "Select options" : "Add to Cart"}
             </Link>
-          ) : (
-            <AddToCart productId={product.id} disabled={soldOut} />
           )}
         </div>
       </div>

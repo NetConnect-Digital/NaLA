@@ -37,7 +37,7 @@ export default async function ShopPage({
             href="/shop"
             className={`rounded-full border px-4 py-1.5 text-sm font-bold ${
               !category
-                ? "border-navy bg-navy text-white"
+                ? "border-[#7f54b3] bg-[#7f54b3] !text-white"
                 : "border-line text-navy hover:bg-cyan-50"
             }`}
           >
@@ -51,7 +51,7 @@ export default async function ShopPage({
                 href={`/shop?category=${c.slug}`}
                 className={`rounded-full border px-4 py-1.5 text-sm font-bold ${
                   category === c.slug
-                    ? "border-navy bg-navy text-white"
+                    ? "border-[#7f54b3] bg-[#7f54b3] !text-white"
                     : "border-line text-navy hover:bg-cyan-50"
                 }`}
               >

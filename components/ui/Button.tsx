@@ -35,11 +35,11 @@ type LinkProps = CommonProps & { href: string } & Omit<
   >;
 
 export function Button(props: ButtonProps | LinkProps) {
-  const { variant = "primary", size = "md", className, children } = props;
+  const { variant = "primary", size = "md", className, children, href, ...rest } =
+    props as CommonProps & { href?: string } & Record<string, unknown>;
   const classes = cn(base, variants[variant], sizes[size], className);
 
-  if ("href" in props && props.href !== undefined) {
-    const { href, ...rest } = props as LinkProps;
+  if (href !== undefined) {
     const external = href.startsWith("http");
     if (external) {
       return (
@@ -49,15 +49,21 @@ export function Button(props: ButtonProps | LinkProps) {
       );
     }
     return (
-      <Link href={href} className={classes} {...rest}>
+      <Link
+        href={href}
+        className={classes}
+        {...(rest as Omit<React.ComponentProps<typeof Link>, "href" | "className">)}
+      >
         {children}
       </Link>
     );
   }
 
-  const { ...rest } = props as ButtonProps;
   return (
-    <button className={classes} {...rest}>
+    <button
+      className={classes}
+      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
       {children}
     </button>
   );

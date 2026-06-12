@@ -87,7 +87,7 @@ function PriceBlock({ t }: { t: TierCard }) {
         label="Add to Cart"
         href={t.fundingSlug ? `/product/${t.fundingSlug}` : undefined}
         fallbackHref="/shop?category=sponsorship"
-        className="mt-2 w-auto px-5 py-2 text-sm"
+        className="mt-2 w-auto px-4 py-2 text-xs md:px-5 md:text-sm"
       />
       <p className="mt-4 text-[16px] font-semibold text-muted">Non-Funding Member Price</p>
       <p className="font-sans text-[24px] font-bold text-cyan-700 md:text-[32px]">
@@ -98,7 +98,7 @@ function PriceBlock({ t }: { t: TierCard }) {
         label="Add to Cart"
         href={t.nonFundingSlug ? `/product/${t.nonFundingSlug}` : undefined}
         fallbackHref="/shop?category=sponsorship"
-        className="mt-2 w-auto px-5 py-2 text-sm"
+        className="mt-2 w-auto px-4 py-2 text-xs md:px-5 md:text-sm"
       />
     </>
   );

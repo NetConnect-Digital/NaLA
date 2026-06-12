@@ -1,5 +1,20 @@
 import { STORE_API } from "./config";
 import type { Product, ProductCategory } from "./types";
+import { decodeEntities, stripShortcodes } from "./utils";
+
+/**
+ * Normalize a product for the headless frontend: decode entity-encoded names and
+ * strip WPBakery/WordPress shortcodes from the rendered HTML fields (the Store API
+ * returns raw shortcodes since WPBakery only renders them on the WordPress side).
+ */
+function decodeProduct(p: Product): Product {
+  p.name = decodeEntities(p.name);
+  p.categories = p.categories?.map((c) => ({ ...c, name: decodeEntities(c.name) }));
+  p.tags = p.tags?.map((t) => ({ ...t, name: decodeEntities(t.name) }));
+  p.description = stripShortcodes(p.description);
+  p.short_description = stripShortcodes(p.short_description);
+  return p;
+}
 
 /**
  * Server-side WooCommerce Store API client for catalog reads.
@@ -45,27 +60,29 @@ export async function getProducts(
   } = {},
   opts: { revalidate?: number } = {},
 ): Promise<Product[]> {
-  return storeGet<Product[]>("/products", {
+  const products = await storeGet<Product[]>("/products", {
     params: { per_page: 100, ...params },
     revalidate: opts.revalidate,
   });
+  return products.map(decodeProduct);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const products = await storeGet<Product[]>("/products", {
     params: { slug },
   });
-  return products[0] ?? null;
+  return products[0] ? decodeProduct(products[0]) : null;
 }
 
 export async function getProductById(id: number): Promise<Product> {
-  return storeGet<Product>(`/products/${id}`);
+  return decodeProduct(await storeGet<Product>(`/products/${id}`));
 }
 
 export async function getCategories(): Promise<ProductCategory[]> {
-  return storeGet<ProductCategory[]>("/products/categories", {
+  const cats = await storeGet<ProductCategory[]>("/products/categories", {
     params: { per_page: 100 },
   });
+  return cats.map((c) => ({ ...c, name: decodeEntities(c.name) }));
 }
 
 export async function getCategoryBySlug(

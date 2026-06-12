@@ -18,7 +18,7 @@ export function PriceTag({
 
   if (prices.price_range) {
     return (
-      <span className={cn("font-sans font-bold text-navy", className)}>
+      <span className={cn("font-sans text-[22px] font-bold text-[#8ac87b]", className)}>
         {formatPrice(prices.price_range.min_amount, opts)} –{" "}
         {formatPrice(prices.price_range.max_amount, opts)}
       </span>
@@ -31,7 +31,7 @@ export function PriceTag({
     prices.sale_price !== prices.regular_price;
 
   return (
-    <span className={cn("font-sans font-bold text-navy", className)}>
+    <span className={cn("font-sans text-[22px] font-bold text-[#8ac87b]", className)}>
       {onSale && (
         <span className="mr-2 font-normal text-muted line-through">
           {formatPrice(prices.regular_price, opts)}

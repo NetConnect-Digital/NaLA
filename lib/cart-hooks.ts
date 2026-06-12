@@ -64,3 +64,17 @@ export function useRemoveCartItem() {
     (v) => ({ key: v.key }),
   );
 }
+
+export function useApplyCoupon() {
+  return useCartMutation<{ code: string }>(
+    () => "/api/cart/apply-coupon",
+    (v) => ({ code: v.code }),
+  );
+}
+
+export function useRemoveCoupon() {
+  return useCartMutation<{ code: string }>(
+    () => "/api/cart/remove-coupon",
+    (v) => ({ code: v.code }),
+  );
+}

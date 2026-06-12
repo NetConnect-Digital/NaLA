@@ -60,6 +60,7 @@ export interface Product {
   add_to_cart: { text: string; description: string; url: string };
   images: StoreImage[];
   categories: ProductCategory[];
+  tags: ProductCategory[];
   variations: { id: number; attributes: { name: string; value: string }[] }[];
   has_options: boolean;
 }
@@ -89,6 +90,7 @@ export interface CartTotals {
   total_items: string;
   total_price: string;
   total_tax: string;
+  total_discount: string;
   currency_code: string;
   currency_symbol: string;
   currency_minor_unit: number;
@@ -96,9 +98,21 @@ export interface CartTotals {
   currency_suffix: string;
 }
 
+export interface CartCoupon {
+  code: string;
+  totals: {
+    total_discount: string;
+    total_discount_tax: string;
+    currency_minor_unit: number;
+    currency_prefix: string;
+    currency_suffix: string;
+  };
+}
+
 export interface Cart {
   items: CartItem[];
   items_count: number;
+  coupons: CartCoupon[];
   totals: CartTotals;
   needs_payment: boolean;
   needs_shipping: boolean;

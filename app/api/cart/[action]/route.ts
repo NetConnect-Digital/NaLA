@@ -2,7 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { storeProxy, persistCartToken } from "@/lib/store-server";
 import type { Cart } from "@/lib/types";
 
-const ALLOWED = new Set(["add-item", "update-item", "remove-item", "items"]);
+const ALLOWED = new Set([
+  "add-item",
+  "update-item",
+  "remove-item",
+  "items",
+  "apply-coupon",
+  "remove-coupon",
+]);
 
 /**
  * POST /api/cart/add-item     { id, quantity }
