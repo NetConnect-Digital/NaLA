@@ -25,7 +25,7 @@ export default async function MyTicketPage() {
           </Link>{" "}
           / My Tickets
         </nav>
-        <h1 className="text-4xl">My Tickets</h1>
+        <h1 className="text-3xl md:text-4xl">My Tickets</h1>
 
         {ticketOrders.length === 0 ? (
           <div className="mt-8 rounded-lg border border-line bg-white p-8 text-center">

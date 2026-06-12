@@ -4,11 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+const WP_MEDIA = "https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05";
+
 const SLIDES = [
-  { src: "/conference/venue/aerial.webp", alt: "The Belgrove Resort aerial view" },
-  { src: "/conference/venue/ballroom.webp", alt: "Conference ballroom, classroom setup" },
-  { src: "/conference/venue/lobby.webp", alt: "Resort lobby lounge" },
-  { src: "/conference/venue/pool.webp", alt: "Aerial view of the resort pools" },
+  { src: `${WP_MEDIA}/ak-pbiwk-golf-course-pool-27023_Classic-Hor.jpeg`, alt: "The Belgrove Resort aerial view" },
+  { src: `${WP_MEDIA}/ak-pbiwk-ballroom-classroom-setup-16146_Classic-Hor.jpeg`, alt: "Conference ballroom, classroom setup" },
+  { src: `${WP_MEDIA}/ak-pbiwk-lobby-50996-11607_Classic-Hor.jpeg`, alt: "Resort lobby lounge" },
+  { src: `${WP_MEDIA}/ak-pbiwk-aerial-view-of-pool-25240_Classic-Hor.jpeg`, alt: "Aerial view of the resort pools" },
 ];
 
 export function VenueSlider() {

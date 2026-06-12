@@ -8,7 +8,7 @@ export function ProductCard({ product }: { product: Product }) {
   const soldOut = !product.is_in_stock || !product.is_purchasable;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-line bg-white shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex flex-col overflow-hidden bg-[#f1f1f1]">
       <Link href={`/product/${product.slug}`} className="block">
         <div className="relative aspect-[4/3] bg-cyan-50">
           {img ? (
@@ -32,19 +32,14 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-4">
-        {product.categories[0] && (
-          <span className="mb-1 text-xs font-bold uppercase tracking-wide text-cyan-700">
-            {product.categories[0].name}
-          </span>
-        )}
+      <div className="flex flex-1 flex-col p-3 md:p-4">
         <Link href={`/product/${product.slug}`}>
-          <h3 className="mt-1 text-[18px] leading-snug hover:text-cyan-700">
+          <h3 className="text-[14px] leading-snug hover:text-cyan-700 md:text-[18px]">
             {product.name}
           </h3>
         </Link>
-        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-          <PriceTag prices={product.prices} />
+        <div className="mt-auto flex flex-col items-start gap-2 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <PriceTag prices={product.prices} className="text-[18px] md:text-[22px]" />
           {soldOut ? (
             <span className="inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-line px-4 py-2 font-sans text-xs font-bold uppercase tracking-wide text-muted md:px-5 md:text-sm">
               Sold Out

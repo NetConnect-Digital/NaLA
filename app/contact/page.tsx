@@ -11,7 +11,7 @@ export default function ContactPage() {
   return (
     <Section>
       <Container>
-        <h1 className="text-4xl">Contact Us</h1>
+        <h1 className="text-3xl md:text-4xl">Contact Us</h1>
         <p className="mt-2 max-w-2xl text-ink-soft">
           Have a question about the conference, membership, or sponsorships? Reach
           out and our team will get back to you.

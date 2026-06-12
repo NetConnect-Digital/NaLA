@@ -7,7 +7,7 @@ import { CONFERENCE } from "@/lib/conference";
 function Emblem() {
   return (
     <Image
-      src="/conference/conference-logo.png"
+      src="/conference/conference-emblem.png"
       alt="NaLA 2026 Annual Conference emblem"
       width={240}
       height={240}
@@ -23,14 +23,14 @@ export function ConferenceHero() {
       {/* Hero photo + gradient (baked into the asset); gradient above is the fallback */}
       <div
         className="pointer-events-none absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url(/conference/hero-bg.webp)" }}
+        style={{ backgroundImage: "url(https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05/2026-Conference-Gradient-Background-W-Img.jpg)" }}
         aria-hidden
       />
 
       {/* Decorative radiating swoosh, anchored to the top-right corner */}
       <div
         className="pointer-events-none absolute -bottom-12 -right-12 h-56 w-56 scale-x-[-1] bg-right-bottom bg-contain bg-no-repeat opacity-90 md:-top-12 md:bottom-auto md:h-[30rem] md:w-[30rem] md:bg-right-top"
-        style={{ backgroundImage: "url(/conference/swoosh.png)" }}
+        style={{ backgroundImage: "url(https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05/Stars-and-Stripes.png)" }}
         aria-hidden
       />
 

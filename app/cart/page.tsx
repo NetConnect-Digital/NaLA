@@ -33,7 +33,7 @@ export default function CartPage() {
   return (
     <Section>
       <Container>
-        <h1 className="text-4xl">Your Cart</h1>
+        <h1 className="text-3xl md:text-4xl">Your Cart</h1>
 
         {items.length === 0 ? (
           <div className="mt-8 rounded-lg border border-line bg-white p-10 text-center">

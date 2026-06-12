@@ -110,12 +110,14 @@ export const VENUE = {
 /* Returning sponsors                                                  */
 /* ------------------------------------------------------------------ */
 
+const WP_MEDIA = "https://shop.nalalifeline.org/wp-content/uploads/sites/3";
+
 export const SPONSORS: { name: string; logo: string }[] = [
-  { name: "Nelson Mullins", logo: "/conference/sponsors/nelson-mullins.png" },
-  { name: "PayGo Distributors", logo: "/conference/sponsors/paygo.webp" },
-  { name: "enTouch Wireless", logo: "/conference/sponsors/entouch.webp" },
-  { name: "XFiniti Solutions", logo: "/conference/sponsors/xfiniti.png" },
-  { name: "RSG Connect", logo: "/conference/sponsors/rsg-connect.webp" },
+  { name: "Nelson Mullins", logo: `${WP_MEDIA}/2024/08/Nelson-Mullins-500x250-1.png` },
+  { name: "PayGo Distributors", logo: `${WP_MEDIA}/2026/06/Paygo-Logo-500x250-1.png` },
+  { name: "enTouch Wireless", logo: `${WP_MEDIA}/2026/06/enTouch-Logo-500x250-1.png` },
+  { name: "XFiniti Solutions", logo: `${WP_MEDIA}/2024/08/Xfiniti-Solutions-Logo-500x250-1.png` },
+  { name: "RSG Connect", logo: `${WP_MEDIA}/2024/08/RSG-Logo-500x250-1.png` },
 ];
 
 /* ------------------------------------------------------------------ */

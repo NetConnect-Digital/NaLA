@@ -55,7 +55,7 @@ export default async function ProductPage({
           )}
         </nav>
 
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-10">
           <div className="relative aspect-square overflow-hidden rounded-lg border border-line bg-cyan-50">
             {img ? (
               <Image
@@ -74,7 +74,7 @@ export default async function ProductPage({
           </div>
 
           <div>
-            <h1 className="text-[36px]">{product.name}</h1>
+            <h1 className="text-[26px] md:text-[36px]">{product.name}</h1>
             <div className="mt-3 text-2xl">
               <PriceTag prices={product.prices} className="text-2xl text-[#8ac87b]" />
             </div>
@@ -144,10 +144,10 @@ export default async function ProductPage({
         </div>
 
         {product.description && (
-          <section className="mt-16 w-full">
+          <section className="mt-10 w-full md:mt-16">
             <div className="overflow-hidden rounded-lg border border-line bg-[#f7f9fb]">
               <div className="border-b border-line bg-white px-5 py-4 md:px-7">
-                <h2 className="text-[30px] leading-none !text-[#00b9c3]">Details</h2>
+                <h2 className="text-[22px] leading-none !text-[#00b9c3] md:text-[30px]">Details</h2>
               </div>
               <div
                 className="prose-nala px-5 py-5 text-ink-soft md:px-7 md:py-6"

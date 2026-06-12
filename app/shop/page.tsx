@@ -25,7 +25,7 @@ export default async function ShopPage({
     <Section>
       <Container>
         <header className="mb-8">
-          <h1 className="text-4xl">Shop</h1>
+          <h1 className="text-3xl md:text-4xl">Shop</h1>
           <p className="mt-2 text-ink-soft">
             Conference registration, sponsorships, and more.
           </p>
@@ -61,7 +61,7 @@ export default async function ShopPage({
         </div>
 
         {products.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

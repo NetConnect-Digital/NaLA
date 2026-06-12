@@ -12,7 +12,7 @@ export default function CheckoutPage() {
   return (
     <Section>
       <Container>
-        <h1 className="text-4xl">Checkout</h1>
+        <h1 className="text-3xl md:text-4xl">Checkout</h1>
         <div className="mt-8 grid gap-10 lg:grid-cols-3">
           <div className="lg:col-span-2 rounded-lg border border-line bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-2xl">Billing &amp; Payment</h2>

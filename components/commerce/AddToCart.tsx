@@ -50,7 +50,7 @@ export function AddToCart({
           min={1}
           value={qty}
           onChange={(e) => setQty(Math.max(1, Number(e.target.value)))}
-          className="h-12 w-20 rounded-full border border-line px-3 text-center"
+          className="h-11 w-20 rounded-full border border-line px-3 text-center md:h-12"
           aria-label="Quantity"
         />
       )}

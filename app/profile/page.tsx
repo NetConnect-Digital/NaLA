@@ -20,7 +20,7 @@ export default async function ProfilePage() {
           </Link>{" "}
           / Edit Profile
         </nav>
-        <h1 className="text-4xl">Edit Profile</h1>
+        <h1 className="text-3xl md:text-4xl">Edit Profile</h1>
         <p className="mt-2 text-ink-soft">Update your account details.</p>
         <div className="mt-8">
           <ProfileForm user={user} />

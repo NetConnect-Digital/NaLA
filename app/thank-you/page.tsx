@@ -19,7 +19,7 @@ export default async function ThankYouPage({
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </div>
-        <h1 className="text-4xl">Thank You for Registering!</h1>
+        <h1 className="text-3xl md:text-4xl">Thank You for Registering!</h1>
         <p className="mt-3 text-ink-soft">
           Your order has been received{order ? <> — confirmation <strong>#{order}</strong></> : ""}.
           A receipt has been emailed to you.

@@ -97,3 +97,52 @@ b, strong {
   max-width: 100%;
   height: auto;
 }
+
+/* Rich-content tables (e.g. ticket pricing tables from the product description) */
+.prose-nala table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0 1.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+}
+.prose-nala :where(th, td) {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-line);
+  border-right: 1px solid var(--color-line);
+}
+@media (max-width: 640px) {
+  .prose-nala :where(th, td) {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+.prose-nala :where(th:last-child, td:last-child) {
+  border-right: 0;
+}
+.prose-nala tr:last-child :where(th, td) {
+  border-bottom: 0;
+}
+.prose-nala thead th,
+.prose-nala tr:first-child th {
+  background: var(--color-navy);
+  color: #fff;
+  font-weight: 700;
+}
+.prose-nala tbody tr:nth-child(even) {
+  background: #f7f9fb;
+}
+
+/* Tidy up quirks in the WordPress-authored HTML */
+.prose-nala p:empty {
+  display: none;
+}
+/* Neutralize inline font-size on spans inside headings (keeps heading sizes consistent) */
+.prose-nala :where(h2, h3) span {
+  font-size: inherit !important;
+  font-weight: inherit;
+}

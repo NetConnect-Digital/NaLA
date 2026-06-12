@@ -19,7 +19,7 @@ export default async function MyAccountPage() {
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-4xl">My Account</h1>
+            <h1 className="text-3xl md:text-4xl">My Account</h1>
             <p className="mt-1 text-ink-soft">
               Welcome back, {user.first_name || user.name}.
             </p>
