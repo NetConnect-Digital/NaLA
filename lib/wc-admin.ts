@@ -22,6 +22,9 @@ export interface WcOrder {
   total: string;
   currency: string;
   currency_symbol?: string;
+  order_key: string;
+  payment_url: string;
+  needs_payment: boolean;
   line_items: WcOrderLineItem[];
 }
 
