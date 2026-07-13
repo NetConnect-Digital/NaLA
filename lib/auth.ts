@@ -47,16 +47,48 @@ export async function clearToken() {
   store.delete(AUTH_COOKIE);
 }
 
-/** Fetch the current WP user using the stored Bearer token. Returns null if unauthenticated. */
+/** Decode a JWT payload (no verification — trust comes from the httpOnly cookie). */
+function decodeJwt(
+  token: string,
+): { id?: string | number; email?: string; exp?: number } | null {
+  try {
+    const payload = token.split(".")[1];
+    if (!payload) return null;
+    const json = Buffer.from(
+      payload.replace(/-/g, "+").replace(/_/g, "/"),
+      "base64",
+    ).toString("utf8");
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Resolve the current user from the JWT stored in the httpOnly cookie.
+ *
+ * We read identity straight from the token payload ({ id, email }) rather than
+ * calling wp/v2/users/me — the Sucuri firewall blocks the WordPress users
+ * endpoint (user-enumeration protection). Richer profile data + orders come
+ * from the WooCommerce wc/v3 customer API, which is not firewall-blocked.
+ */
 export async function getCurrentUser(): Promise<WpUser | null> {
   const token = await getToken();
   if (!token) return null;
-  const res = await fetch(`${WP_API}/wp/v2/users/me?context=edit`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-    cache: "no-store",
-  });
-  if (!res.ok) return null;
-  return (await res.json()) as WpUser;
+
+  const payload = decodeJwt(token);
+  if (!payload?.id) return null;
+
+  // Expired token → treated as logged out.
+  if (payload.exp && Date.now() >= payload.exp * 1000) return null;
+
+  const id = Number(payload.id);
+  const email = typeof payload.email === "string" ? payload.email : undefined;
+  return {
+    id,
+    email,
+    name: email ? email.split("@")[0] : `Member #${id}`,
+  };
 }
 
 /** Extract a JWT from the various shapes JWT plugins return. */

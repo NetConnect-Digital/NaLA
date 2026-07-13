@@ -13,14 +13,16 @@ export function AuthShell({
   footer?: React.ReactNode;
 }) {
   return (
-    <Section className="bg-cyan-50/40">
-      <Container className="max-w-md">
-        <div className="rounded-xl border border-line bg-white p-8 shadow-sm">
-          <h1 className="text-3xl">{title}</h1>
-          {subtitle && <p className="mt-1 text-ink-soft">{subtitle}</p>}
+    <Section>
+      <Container>
+        <div className="mx-auto max-w-2xl rounded-lg bg-cyan p-6 text-white sm:p-8 md:p-10">
+          <h1 className="!text-white text-3xl md:text-4xl">{title}</h1>
+          {subtitle && <p className="mt-2 text-white/90">{subtitle}</p>}
           <div className="mt-6">{children}</div>
+          {footer && (
+            <div className="mt-5 space-y-1.5 text-sm text-white/90">{footer}</div>
+          )}
         </div>
-        {footer && <div className="mt-4 text-center text-sm text-ink-soft">{footer}</div>}
       </Container>
     </Section>
   );
@@ -41,9 +43,8 @@ export function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-1 block text-sm font-bold text-navy">
+      <label htmlFor={name} className="mb-1.5 block text-sm font-semibold text-white">
         {label}
-        {required && <span className="text-red-500"> *</span>}
       </label>
       <input
         id={name}
@@ -51,7 +52,7 @@ export function Field({
         type={type}
         required={required}
         autoComplete={autoComplete}
-        className="w-full rounded-md border border-line px-3 py-2 focus:border-cyan focus:outline-none"
+        className="w-full rounded-full border border-white/40 bg-white px-4 py-2.5 text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-white/60"
       />
     </div>
   );

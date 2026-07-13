@@ -47,7 +47,7 @@ function Dropdown({ item }: { item: NavItem }) {
     >
       <Link
         href={item.href}
-        className="inline-flex items-center gap-1 px-3 py-2 font-sans font-bold text-navy hover:text-cyan-700"
+        className="inline-flex items-center gap-1 px-3 py-2 font-sans text-[18px] font-semibold text-navy hover:text-cyan-700"
       >
         {item.label}
         {item.children && (

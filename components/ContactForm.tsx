@@ -38,7 +38,7 @@ export function ContactForm() {
   }
 
   const field =
-    "w-full rounded-lg border border-line px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-cyan focus:outline-none focus:ring-2 focus:ring-cyan/40";
+    "w-full min-h-[44px] rounded-[30px] border border-black/[0.16] bg-black/[0.02] py-3 pl-[26px] pr-4 text-base text-[#3c3c3c] placeholder:text-muted focus:border-cyan focus:outline-none focus:ring-2 focus:ring-cyan/40";
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -65,7 +65,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex cursor-pointer items-center justify-center rounded-full bg-cyan px-8 py-3 font-sans text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-cyan-700 disabled:opacity-60"
+        className="inline-flex cursor-pointer items-center justify-center rounded-full bg-cyan px-8 py-3 font-sans text-[17px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-cyan-700 disabled:opacity-60"
       >
         {status === "sending" ? "Sending…" : "Send Email"}
       </button>

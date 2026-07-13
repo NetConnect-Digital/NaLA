@@ -1,33 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "@/lib/auth";
-import { WP_API } from "@/lib/config";
+import { getCurrentUser } from "@/lib/auth";
+import { updateWcCustomer } from "@/lib/wc-admin";
 
-/** PUT /api/account/profile — update the current user's WP profile fields. */
+/**
+ * PUT /api/account/profile — update the current user's WooCommerce profile.
+ *
+ * Uses the wc/v3 customers API (not wp/v2/users/me, which the Sicuri firewall
+ * blocks). Requires WC_CONSUMER_KEY / WC_CONSUMER_SECRET to be configured.
+ */
 export async function PUT(req: NextRequest) {
-  const token = await getToken();
-  if (!token) return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  }
 
   const body = (await req.json().catch(() => ({}))) as Record<string, string>;
   const allowed: Record<string, string> = {};
-  for (const k of ["first_name", "last_name", "email", "name"]) {
+  for (const k of ["first_name", "last_name", "email"]) {
     if (typeof body[k] === "string") allowed[k] = body[k];
   }
 
-  const res = await fetch(`${WP_API}/wp/v2/users/me`, {
-    method: "POST", // WP accepts POST for partial update
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(allowed),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    return NextResponse.json(
-      { message: (data as { message?: string })?.message ?? "Update failed" },
-      { status: res.status },
-    );
+  const result = await updateWcCustomer(user.id, allowed);
+  if (!result.ok) {
+    return NextResponse.json({ message: result.message }, { status: 400 });
   }
-  return NextResponse.json({ ok: true, user: data });
+  return NextResponse.json({ ok: true });
 }

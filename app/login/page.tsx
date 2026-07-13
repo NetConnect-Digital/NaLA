@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { AuthShell, Field } from "@/components/auth/AuthShell";
-import { Button } from "@/components/ui/Button";
 import { useLogin } from "@/lib/auth-hooks";
 
 export default function LoginPage() {
@@ -31,29 +30,54 @@ export default function LoginPage() {
   return (
     <AuthShell
       title="Welcome"
-      subtitle="Log in to your NaLA account."
+      subtitle="Please login to your NaLA Membership below."
       footer={
         <>
-          New here?{" "}
-          <Link href="/register" className="font-bold text-cyan-700 hover:underline">
-            Create an account
-          </Link>
+          <p>
+            Not a member yet? Register{" "}
+            <Link href="/register" className="font-semibold underline hover:text-navy">
+              here
+            </Link>
+            .
+          </p>
+          <p>
+            Lost your password? Click{" "}
+            <Link
+              href="/recover-password"
+              className="font-semibold underline hover:text-navy"
+            >
+              here
+            </Link>
+            .
+          </p>
         </>
       }
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <Field name="username" label="Username or Email" required autoComplete="username" />
-        <Field name="password" label="Password" type="password" required autoComplete="current-password" />
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <Button type="submit" variant="secondary" className="w-full" disabled={login.isPending}>
-          {login.isPending ? "Logging in…" : "Log In"}
-        </Button>
-        <Link
-          href="/recover-password"
-          className="block text-center text-sm text-cyan-700 hover:underline"
+        <Field
+          name="password"
+          label="Password"
+          type="password"
+          required
+          autoComplete="current-password"
+        />
+        <label className="flex items-center gap-2 text-sm text-white">
+          <input type="checkbox" name="remember" className="h-4 w-4 accent-green" />
+          Remember Me
+        </label>
+        {error && (
+          <p className="rounded-md bg-white/90 px-3 py-2 text-sm font-semibold text-red-600">
+            {error}
+          </p>
+        )}
+        <button
+          type="submit"
+          disabled={login.isPending}
+          className="inline-flex cursor-pointer items-center justify-center rounded-full bg-green px-8 py-3 font-sans text-sm font-bold uppercase tracking-wide !text-white transition-colors hover:bg-[#5fae4d] disabled:opacity-60"
         >
-          Forgot your password?
-        </Link>
+          {login.isPending ? "Logging in…" : "Log In"}
+        </button>
       </form>
     </AuthShell>
   );

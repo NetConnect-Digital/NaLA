@@ -41,7 +41,7 @@ export default function ContactPage() {
           <ContactForm />
 
           {/* NaLA Inquiries */}
-          <aside className="rounded-lg bg-green p-8 text-ink">
+          <aside className="rounded-lg bg-green p-12 text-ink">
             <h2 className="!text-navy text-[36px]">NaLA Inquiries</h2>
             <p className="mt-5 font-semibold">1-844-937-NALA (6252)</p>
             <p className="mt-4">

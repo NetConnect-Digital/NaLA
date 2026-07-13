@@ -48,3 +48,46 @@ export async function getCustomerOrders(customerId: number): Promise<WcOrder[]> 
   if (!res.ok) return [];
   return (await res.json()) as WcOrder[];
 }
+
+export interface WcCustomer {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+}
+
+/** Fetch a WooCommerce customer (profile) by id. Returns null if keys/customer missing. */
+export async function getWcCustomer(id: number): Promise<WcCustomer | null> {
+  const auth = authHeader();
+  if (!auth) return null;
+  const res = await fetch(`${WC_API}/customers/${id}`, {
+    headers: { Authorization: auth, Accept: "application/json" },
+    cache: "no-store",
+  });
+  if (!res.ok) return null;
+  return (await res.json()) as WcCustomer;
+}
+
+/** Update a WooCommerce customer (profile). */
+export async function updateWcCustomer(
+  id: number,
+  data: Record<string, string>,
+): Promise<{ ok: boolean; message?: string }> {
+  const auth = authHeader();
+  if (!auth) {
+    return { ok: false, message: "WooCommerce API keys are not configured." };
+  }
+  const res = await fetch(`${WC_API}/customers/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: auth,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  const d = (await res.json().catch(() => ({}))) as { message?: string };
+  if (!res.ok) return { ok: false, message: d.message ?? "Update failed." };
+  return { ok: true };
+}
