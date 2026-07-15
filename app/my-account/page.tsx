@@ -28,7 +28,20 @@ export default async function MyAccountPage() {
           <LogoutButton />
         </div>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AccountTile
+            href="/my-account#orders"
+            title="Orders"
+            cta="View orders"
+            accent="green"
+            icon={
+              <>
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </>
+            }
+          />
           <AccountTile
             href="/profile"
             title="Edit Profile"
@@ -53,21 +66,9 @@ export default async function MyAccountPage() {
               </>
             }
           />
-          <AccountTile
-            href="https://nalalifeline.org/membership/"
-            title="Membership"
-            cta="Manage membership"
-            accent="green"
-            icon={
-              <>
-                <circle cx="12" cy="8" r="6" />
-                <path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5" />
-              </>
-            }
-          />
         </div>
 
-        <div className="mt-12">
+        <div id="orders" className="mt-8 scroll-mt-24">
           <h2 className="text-2xl">Recent Orders</h2>
           {orders.length === 0 ? (
             <p className="mt-3 text-muted">
@@ -94,7 +95,14 @@ export default async function MyAccountPage() {
                     );
                     return (
                       <tr key={o.id} className="border-b border-line align-middle">
-                        <td className="p-3 font-bold text-cyan-700">#{o.number}</td>
+                        <td className="p-3 font-bold">
+                          <Link
+                            href={`/my-account/orders/${o.id}`}
+                            className="!text-cyan-700 hover:underline"
+                          >
+                            #{o.number}
+                          </Link>
+                        </td>
                         <td className="p-3 text-ink-soft">
                           {new Date(o.date_created).toLocaleDateString("en-US")}
                         </td>
@@ -108,13 +116,13 @@ export default async function MyAccountPage() {
                         </td>
                         <td className="p-3">
                           <div className="flex flex-wrap gap-2">
-                            <OrderButton
-                              href={`${WP_URL}/checkout/order-received/${o.id}/?key=${o.order_key}`}
-                            >
+                            <OrderButton href={`/my-account/orders/${o.id}`}>
                               View
                             </OrderButton>
-                            {o.needs_payment && o.payment_url && (
-                              <OrderButton href={o.payment_url}>Pay</OrderButton>
+                            {o.needs_payment && (
+                              <OrderButton href={`/my-account/orders/${o.id}/pay`}>
+                                Pay
+                              </OrderButton>
                             )}
                             {o.status === "completed" && (
                               <OrderButton
@@ -150,13 +158,17 @@ function OrderButton({
 }) {
   const color =
     variant === "navy" ? "bg-navy hover:bg-navy-dark" : "bg-cyan hover:bg-cyan-700";
+  const cls = `inline-flex cursor-pointer items-center justify-center rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide !text-white transition-colors ${color}`;
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={cls}>
+        {children}
+      </Link>
+    );
+  }
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex cursor-pointer items-center justify-center rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide !text-white transition-colors ${color}`}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
       {children}
     </a>
   );
@@ -185,7 +197,7 @@ function AccountTile({
   const external = href.startsWith("http");
   const inner = (
     <div
-      className={`group flex h-full items-center gap-4 rounded-xl border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${a.hover}`}
+      className={`group flex h-full items-center gap-4 rounded-xl border border-line bg-[#f7f9fb] p-4 transition-all hover:-translate-y-0.5 hover:shadow-md ${a.hover}`}
     >
       <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${a.badge}`}>
         <svg

@@ -84,11 +84,11 @@ export async function getCurrentUser(): Promise<WpUser | null> {
 
   const id = Number(payload.id);
   const email = typeof payload.email === "string" ? payload.email : undefined;
-  return {
-    id,
-    email,
-    name: email ? email.split("@")[0] : `Member #${id}`,
-  };
+  const handle = email?.split("@")[0] ?? "";
+  const name = handle
+    ? handle.charAt(0).toUpperCase() + handle.slice(1)
+    : `Member #${id}`;
+  return { id, email, name };
 }
 
 /** Extract a JWT from the various shapes JWT plugins return. */
