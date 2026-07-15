@@ -1,12 +1,18 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
 import { getProducts } from "@/lib/woocommerce";
 import { Container, Section } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/commerce/ProductCard";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  // The home page is members-only (mirrors the live site) — send guests to login.
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
   const products = await getProducts({ per_page: 6 }).catch(() => []);
   const featured = products.slice(0, 3);
 

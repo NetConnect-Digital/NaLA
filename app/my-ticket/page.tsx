@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/wc-admin";
-import { Container, Section } from "@/components/ui/Container";
+import { AccountLayout } from "@/components/account/AccountLayout";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "My Tickets" };
@@ -17,18 +17,11 @@ export default async function MyTicketPage() {
   );
 
   return (
-    <Section>
-      <Container>
-        <nav className="mb-4 text-sm text-muted">
-          <Link href="/my-account" className="hover:text-cyan-700">
-            My Account
-          </Link>{" "}
-          / My Tickets
-        </nav>
-        <h1 className="text-3xl md:text-4xl">My Tickets</h1>
+    <AccountLayout>
+      <h2 className="text-2xl">My Tickets</h2>
 
         {ticketOrders.length === 0 ? (
-          <div className="mt-8 rounded-lg border border-line bg-white p-8 text-center">
+          <div className="mt-6 rounded-lg border border-line bg-white p-8 text-center">
             <p className="text-ink-soft">
               You don&apos;t have any conference tickets yet.
             </p>
@@ -40,7 +33,7 @@ export default async function MyTicketPage() {
             </Link>
           </div>
         ) : (
-          <ul className="mt-8 space-y-4">
+          <ul className="mt-6 space-y-4">
             {ticketOrders.flatMap((o) =>
               o.line_items
                 .filter((li) => /registration|ticket|conference/i.test(li.name))
@@ -67,7 +60,6 @@ export default async function MyTicketPage() {
             )}
           </ul>
         )}
-      </Container>
-    </Section>
+    </AccountLayout>
   );
 }

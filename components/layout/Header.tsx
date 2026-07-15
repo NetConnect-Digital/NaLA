@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
 
 const LOGGED_IN_NAV: NavItem[] = [
   { label: "My Account", href: "/my-account" },
-  { label: "Edit Profile", href: "/profile" },
+  { label: "Profile", href: "/profile" },
+  { label: "Edit Account", href: "/my-account/edit-account" },
   { label: "My Tickets", href: "/my-ticket" },
 ];
 
@@ -95,7 +96,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
           {PRIMARY_NAV.map((item) => (
             <Dropdown key={item.href} item={item} />
           ))}

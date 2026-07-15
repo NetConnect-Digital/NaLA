@@ -16,14 +16,12 @@ export const PRIMARY_NAV: NavItem[] = [
       { label: "Hotel & Venue", href: "/2026-conference#venue" },
     ],
   },
-  { label: "Shop", href: "/shop" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const ACCOUNT_NAV: NavItem[] = [
   { label: "Login", href: "/login" },
-  { label: "Register", href: "/register" },
   { label: "My Account", href: "/my-account" },
-  { label: "Edit Profile", href: "/profile" },
-  { label: "Become a Member", href: "https://nalalifeline.org/membership/" },
+  { label: "Edit Profile", href: "/my-account/edit-account" },
+  { label: "Become a Member", href: "/register" },
 ];

@@ -57,6 +57,42 @@ function authHeader(): string | null {
   return `Basic ${token}`;
 }
 
+/**
+ * Perform a WooCommerce write (PUT/DELETE) as a POST with `?_method=` override.
+ *
+ * The Sucuri firewall in front of the backend blocks raw PUT/DELETE requests
+ * (403 block page), but WordPress honours the `_method` query parameter, so a
+ * POST tunnels the intended verb straight through. All wc/v3 mutations go
+ * through here.
+ */
+async function wcWrite(
+  path: string,
+  data: Record<string, unknown>,
+  method: "PUT" | "DELETE" = "PUT",
+): Promise<{ ok: boolean; data: Record<string, unknown>; message?: string }> {
+  const auth = authHeader();
+  if (!auth) {
+    return { ok: false, data: {}, message: "WooCommerce API keys are not configured." };
+  }
+  const url = new URL(`${WC_API}${path}`);
+  url.searchParams.set("_method", method);
+  const res = await fetch(url.toString(), {
+    method: "POST",
+    headers: {
+      Authorization: auth,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+    cache: "no-store",
+  }).catch(() => null);
+  const d = (await res?.json().catch(() => ({}))) as Record<string, unknown>;
+  if (!res || !res.ok) {
+    return { ok: false, data: d, message: (d?.message as string) ?? "Request failed." };
+  }
+  return { ok: true, data: d };
+}
+
 export async function getCustomerOrders(customerId: number): Promise<WcOrder[]> {
   const auth = authHeader();
   if (!auth) return []; // keys not configured yet
@@ -96,24 +132,17 @@ export async function markOrderPaid(
   id: number,
   transactionId: string,
 ): Promise<{ ok: boolean; message?: string }> {
-  const auth = authHeader();
-  if (!auth) return { ok: false, message: "WooCommerce API keys are not configured." };
-  const res = await fetch(`${WC_API}/orders/${id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: auth,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      status: "processing",
-      set_paid: true,
-      transaction_id: transactionId,
-    }),
+  const { ok, message } = await wcWrite(`/orders/${id}`, {
+    status: "processing",
+    set_paid: true,
+    transaction_id: transactionId,
   });
-  const d = (await res.json().catch(() => ({}))) as { message?: string };
-  if (!res.ok) return { ok: false, message: d.message ?? "Failed to update order." };
-  return { ok: true };
+  return { ok, message };
+}
+
+interface WcMeta {
+  key: string;
+  value: string;
 }
 
 export interface WcCustomer {
@@ -122,6 +151,100 @@ export interface WcCustomer {
   first_name: string;
   last_name: string;
   username: string;
+  /** Display name — stored as customer meta (`wp/v2/users` is firewall-blocked). */
+  display_name?: string;
+  date_created?: string;
+  avatar_url?: string;
+  billing?: WcAddress;
+  shipping?: WcAddress;
+  meta_data?: WcMeta[];
+}
+
+/** Meta key used to persist the display name (the WP column is not reachable). */
+export const DISPLAY_NAME_META = "nala_display_name";
+
+export interface WcDownload {
+  download_id: string;
+  download_name: string;
+  product_id: number;
+  product_name: string;
+  download_url: string;
+  downloads_remaining: string | number;
+  access_expires: string | null;
+}
+
+export interface WcSubscription {
+  id: number;
+  number: string;
+  status: string;
+  total: string;
+  currency_symbol?: string;
+  customer_id?: number;
+  billing_period?: string;
+  billing_interval?: string;
+  payment_method_title?: string;
+  next_payment_date_gmt?: string;
+  start_date_gmt?: string;
+  last_payment_date_gmt?: string;
+  end_date_gmt?: string;
+  date_created?: string;
+  line_items: WcOrderLineItem[];
+}
+
+/**
+ * A customer's subscriptions (WooCommerce Subscriptions plugin, wc/v3).
+ * Returns [] if the plugin/endpoint isn't available so the UI degrades cleanly.
+ */
+export async function getCustomerSubscriptions(
+  customerId: number,
+): Promise<WcSubscription[]> {
+  const auth = authHeader();
+  if (!auth) return [];
+  const url = new URL(`${WC_API}/subscriptions`);
+  url.searchParams.set("customer", String(customerId));
+  url.searchParams.set("per_page", "20");
+  const res = await fetch(url.toString(), {
+    headers: { Authorization: auth, Accept: "application/json" },
+    cache: "no-store",
+  }).catch(() => null);
+  if (!res || !res.ok) return [];
+  return (await res.json().catch(() => [])) as WcSubscription[];
+}
+
+/** Fetch a single subscription by id (WooCommerce Subscriptions, wc/v3). */
+export async function getWcSubscription(
+  id: number,
+): Promise<WcSubscription | null> {
+  const auth = authHeader();
+  if (!auth) return null;
+  const res = await fetch(`${WC_API}/subscriptions/${id}`, {
+    headers: { Authorization: auth, Accept: "application/json" },
+    cache: "no-store",
+  }).catch(() => null);
+  if (!res || !res.ok) return null;
+  return (await res.json().catch(() => null)) as WcSubscription | null;
+}
+
+/** Cancel a subscription (wc/v3). */
+export async function cancelSubscription(
+  id: number,
+): Promise<{ ok: boolean; message?: string }> {
+  const { ok, message } = await wcWrite(`/subscriptions/${id}`, {
+    status: "cancelled",
+  });
+  return { ok, message };
+}
+
+/** A customer's downloadable products (wc/v3). Empty when none / keys missing. */
+export async function getCustomerDownloads(id: number): Promise<WcDownload[]> {
+  const auth = authHeader();
+  if (!auth) return [];
+  const res = await fetch(`${WC_API}/customers/${id}/downloads`, {
+    headers: { Authorization: auth, Accept: "application/json" },
+    cache: "no-store",
+  });
+  if (!res.ok) return [];
+  return (await res.json()) as WcDownload[];
 }
 
 /** Fetch a WooCommerce customer (profile) by id. Returns null if keys/customer missing. */
@@ -133,28 +256,37 @@ export async function getWcCustomer(id: number): Promise<WcCustomer | null> {
     cache: "no-store",
   });
   if (!res.ok) return null;
-  return (await res.json()) as WcCustomer;
+  const customer = (await res.json()) as WcCustomer;
+  // Surface the display name persisted in meta (the WP column is unreachable).
+  const meta = customer.meta_data?.find((m) => m.key === DISPLAY_NAME_META);
+  if (meta?.value) customer.display_name = meta.value;
+  return customer;
 }
 
-/** Update a WooCommerce customer (profile). */
+/**
+ * Update a WooCommerce customer (profile). A `display_name` key is redirected
+ * into customer meta because WooCommerce's wc/v3 customer API has no
+ * display_name field and the WP users endpoint is firewall-blocked.
+ */
 export async function updateWcCustomer(
   id: number,
   data: Record<string, string>,
 ): Promise<{ ok: boolean; message?: string }> {
-  const auth = authHeader();
-  if (!auth) {
-    return { ok: false, message: "WooCommerce API keys are not configured." };
+  const { display_name, ...rest } = data;
+  const payload: Record<string, unknown> = { ...rest };
+  if (typeof display_name === "string" && display_name.trim() !== "") {
+    payload.meta_data = [{ key: DISPLAY_NAME_META, value: display_name }];
   }
-  const res = await fetch(`${WC_API}/customers/${id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: auth,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  const d = (await res.json().catch(() => ({}))) as { message?: string };
-  if (!res.ok) return { ok: false, message: d.message ?? "Update failed." };
-  return { ok: true };
+  const { ok, message } = await wcWrite(`/customers/${id}`, payload);
+  return { ok, message };
+}
+
+/** Update a customer's billing or shipping address (wc/v3). */
+export async function updateWcCustomerAddress(
+  id: number,
+  type: "billing" | "shipping",
+  address: WcAddress,
+): Promise<{ ok: boolean; message?: string }> {
+  const { ok, message } = await wcWrite(`/customers/${id}`, { [type]: address });
+  return { ok, message };
 }

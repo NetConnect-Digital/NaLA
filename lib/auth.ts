@@ -91,6 +91,24 @@ export async function getCurrentUser(): Promise<WpUser | null> {
   return { id, email, name };
 }
 
+/**
+ * Verify a user's password by attempting a JWT auth. Used to confirm the
+ * "current password" before allowing a password change. Returns true on success.
+ */
+export async function verifyPassword(
+  email: string,
+  password: string,
+): Promise<boolean> {
+  const res = await fetch(`${JWT_NS}/auth`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ email, password }),
+  }).catch(() => null);
+  if (!res || !res.ok) return false;
+  const data = (await res.json().catch(() => ({}))) as unknown;
+  return Boolean(extractJwt(data));
+}
+
 /** Extract a JWT from the various shapes JWT plugins return. */
 export function extractJwt(data: unknown): string | undefined {
   if (!data || typeof data !== "object") return undefined;
