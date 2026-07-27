@@ -15,7 +15,8 @@ export const CONFERENCE = {
   dates: "October 21–22, 2026",
   venueCity: "West Palm Beach, FL",
   venue: "The Belgrove Resort & Spa",
-  hotelUrl: "https://shop.nalalifeline.org/2026-conference/#venue",
+  hotelUrl:
+    "https://www.marriott.com/event-reservations/reservation-link.mi?id=1771949091233&key=GRP&app=resvlink&_branch_match_id=1545441796151960675&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXTywo0MtNLCrKzC8p0UvOz9UvSi3OyczLtgdK2ALZZSCOWmaKraG5uaGliaWBpaGRsbFadmqlrXtQgFpdUWpaKlB3Xnp8UlF%2BeXFqka1zRlF%2BbioAdk%2F3emAAAAA%3D",
   sponsorEmail: "sponsorships@nalalifeline.org",
   saveBanner: "SAVE NOW With Early Registration",
 };

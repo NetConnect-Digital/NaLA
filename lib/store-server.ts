@@ -118,3 +118,9 @@ export async function persistCartToken(token?: string) {
   const cookieStore = await cookies();
   persistSessionCookies(cookieStore, token);
 }
+
+/** Persist a Cart-Token + Nonce pair (e.g. one obtained via a non-Store-API flow). */
+export async function persistCartSession(token?: string, nonce?: string) {
+  const cookieStore = await cookies();
+  persistSessionCookies(cookieStore, token, nonce);
+}

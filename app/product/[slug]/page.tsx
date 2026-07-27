@@ -5,7 +5,9 @@ import { getProductBySlug } from "@/lib/woocommerce";
 import { Container, Section } from "@/components/ui/Container";
 import { PriceTag } from "@/components/commerce/PriceTag";
 import { AddToCart } from "@/components/commerce/AddToCart";
-import { stripHtml } from "@/lib/utils";
+import { TicketRegistrationForm } from "@/components/commerce/TicketRegistrationForm";
+import { TICKET_FORM_SLUGS } from "@/lib/ticket-fields";
+import { cn, stripHtml } from "@/lib/utils";
 
 export const revalidate = 300;
 
@@ -34,6 +36,11 @@ export default async function ProductPage({
 
   const img = product.images[0];
   const soldOut = !product.is_in_stock || !product.is_purchasable;
+  const isTicket = product.categories.some((c) => c.slug === "ticket");
+  // Store API flags has_options=true for this product due to a WP plugin
+  // (per-ticket guest info fields) even though it carries no real variations
+  // to select, so gate the picker prompt on actual variations instead.
+  const needsOptionSelection = product.variations.length > 0;
 
   return (
     <Section>
@@ -86,8 +93,25 @@ export default async function ProductPage({
               />
             )}
 
+            {product.stock_availability?.text && (
+              <p
+                className={cn(
+                  "mt-4 text-sm font-semibold",
+                  product.stock_availability.class === "out-of-stock"
+                    ? "text-red-600"
+                    : product.stock_availability.class === "on-backorder"
+                      ? "text-amber-600"
+                      : "text-green-700",
+                )}
+              >
+                {product.stock_availability.text}
+              </p>
+            )}
+
             <div className="mt-6">
-              {product.has_options ? (
+              {TICKET_FORM_SLUGS.has(product.slug) && !soldOut ? (
+                <TicketRegistrationForm productId={product.id} slug={product.slug} />
+              ) : needsOptionSelection ? (
                 <p className="rounded-md bg-cream p-4 text-sm text-ink-soft">
                   This product has options. Please complete your selection on the
                   original site or contact us to configure variations.
@@ -97,6 +121,7 @@ export default async function ProductPage({
                   productId={product.id}
                   disabled={soldOut}
                   withQuantity={!product.sold_individually}
+                  label={isTicket ? "Buy Ticket Now" : "Add to Cart"}
                   variant="secondary"
                   buttonClassName="bg-[#01c0e1] uppercase hover:bg-[#01a8c5]"
                   redirectTo="/cart"

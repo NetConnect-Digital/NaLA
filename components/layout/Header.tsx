@@ -21,7 +21,7 @@ function CartLink() {
   return (
     <Link
       href="/cart"
-      className="relative inline-flex items-center gap-2 rounded-md px-3 py-2 text-navy hover:bg-cyan-50"
+      className="relative inline-flex items-center gap-2 rounded-md px-3 py-2 !text-white hover:bg-white/10"
       aria-label={`Cart with ${count} items`}
     >
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -30,7 +30,7 @@ function CartLink() {
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
       {count > 0 && (
-        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan px-1 text-xs font-bold text-white">
+        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-xs font-bold text-cyan-700">
           {count}
         </span>
       )}
@@ -48,7 +48,7 @@ function Dropdown({ item }: { item: NavItem }) {
     >
       <Link
         href={item.href}
-        className="inline-flex items-center gap-1 px-3 py-2 font-sans text-[18px] font-semibold text-navy hover:text-cyan-700"
+        className="inline-flex items-center gap-1 px-3 py-2 font-sans text-[18px] font-semibold !text-white hover:!text-white/80"
       >
         {item.label}
         {item.children && (
@@ -82,7 +82,7 @@ export function Header() {
     : { label: "Member Login", href: "/login", children: ACCOUNT_NAV };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-cyan-700">
       <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="shrink-0" aria-label="NaLA home">
           <Image
@@ -106,7 +106,7 @@ export function Header() {
 
         {/* Mobile toggle */}
         <button
-          className="inline-flex cursor-pointer items-center rounded-md p-2 text-navy lg:hidden"
+          className="inline-flex cursor-pointer items-center rounded-md p-2 text-white lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
