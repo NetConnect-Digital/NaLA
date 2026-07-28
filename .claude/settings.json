@@ -78,7 +78,16 @@
       "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --no-sandbox --screenshot=\"D:/NaLA/.tmp-register-screenshot3.png\" --window-size=1000,2400 --virtual-time-budget=20000 \"http://localhost:3000/register\")",
       "Bash(curl -s -o /dev/null -w \"recaptcha anchor: %{http_code}\\\\n\" --max-time 8 \"https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI&co=aHR0cDovL2xvY2FsaG9zdDozMDAw&hl=en&size=normal\")",
       "Bash(rm -f /d/NaLA/.tmp-register-screenshot*.png /d/NaLA/.tmp-dom.html /d/NaLA/.tmp-chrome-console.log)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/my-account/orders)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/my-account/orders)",
+      "Bash(echo \"started with PID $!\")",
+      "Read(//c/Users/rekha/AppData/Local/Temp/**)",
+      "Bash(taskkill //F //PID 12564)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(disown)",
+      "Bash(taskkill //F //PID 3432)"
+    ],
+    "additionalDirectories": [
+      "D:\\NaLA\\.next"
     ]
   }
 }
