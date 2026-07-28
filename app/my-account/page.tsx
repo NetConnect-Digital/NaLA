@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
+import { getWcCustomer } from "@/lib/wc-admin";
 import { AccountLayout } from "@/components/account/AccountLayout";
 
 export const dynamic = "force-dynamic";
@@ -10,10 +11,16 @@ export default async function MyAccountPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
+  const customer = await getWcCustomer(user.id).catch(() => null);
+  const displayName =
+    customer?.display_name ||
+    customer?.first_name ||
+    user.name;
+
   return (
     <AccountLayout>
       <h1 className="text-2xl font-bold text-navy md:text-3xl">
-        Hi, {user.first_name || user.name} 👋
+        Hi, {displayName} 👋
       </h1>
       <p className="mt-2 max-w-xl text-ink-soft">
         Welcome to your account. Track your orders, manage your details, and view

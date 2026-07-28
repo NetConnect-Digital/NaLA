@@ -1,20 +1,21 @@
 import { getCurrentUser } from "@/lib/auth";
+import { getWcCustomer } from "@/lib/wc-admin";
 import { Container, Section } from "@/components/ui/Container";
 import { AccountSidebar } from "./AccountSidebar";
 
-/**
- * Shared My Account shell: a soft, modern sidebar on the left and the page
- * content on the right. Fetches the current user so the sidebar can show a
- * profile block (auth is already enforced by each page).
- */
 export async function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const user = await getCurrentUser();
-  const name = user?.first_name || user?.name || "Member";
-  const email = user?.email ?? "";
+  const customer = user ? await getWcCustomer(user.id).catch(() => null) : null;
+  const name =
+    customer?.display_name ||
+    [customer?.first_name, customer?.last_name].filter(Boolean).join(" ").trim() ||
+    user?.name ||
+    "Member";
+  const email = customer?.email ?? user?.email ?? "";
 
   return (
     <Section className="bg-[#f6f8fa]">

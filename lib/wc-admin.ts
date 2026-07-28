@@ -285,7 +285,11 @@ export async function updateWcCustomer(
   const { display_name, ...rest } = data;
   const payload: Record<string, unknown> = { ...rest };
   if (typeof display_name === "string" && display_name.trim() !== "") {
+    // Store in meta for reviews/public display.
     payload.meta_data = [{ key: DISPLAY_NAME_META, value: display_name }];
+    // Also write into first_name so the sidebar can always read it reliably
+    // (WC REST API returns first_name natively; meta_data may be filtered by WP).
+    if (!rest.first_name) payload.first_name = display_name;
   }
   const { ok, message } = await wcWrite(`/customers/${id}`, payload);
   return { ok, message };
