@@ -84,10 +84,20 @@
       "Bash(taskkill //F //PID 12564)",
       "Bash(taskkill //F //IM node.exe)",
       "Bash(disown)",
-      "Bash(taskkill //F //PID 3432)"
+      "Bash(taskkill //F //PID 3432)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://shop.nalalifeline.org/wp-admin/admin-ajax.php?action=generate_wpo_wcpdf&document_type=invoice&order_ids=19698&order_key=test\")",
+      "Bash(curl -s \"https://shop.nalalifeline.org/wp-admin/admin-ajax.php?action=generate_wpo_wcpdf&document_type=invoice&order_ids=19698&order_key=test\")",
+      "Bash(curl -sD - \"https://shop.nalalifeline.org/wp-admin/admin-ajax.php?action=generate_wpo_wcpdf&document_type=invoice&order_ids=19698&order_key=test\" -o /tmp/resp.html)",
+      "Bash(cp /tmp/order19698.json \"C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order19698.json\")",
+      "Bash(npm audit *)",
+      "Bash(identify public/brand/logo.png)",
+      "Bash(node -e \"console.log\\('size check only'\\)\")",
+      "Bash(node -e \" *)",
+      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice.pdf --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/orders/19698/invoice)"
     ],
     "additionalDirectories": [
-      "D:\\NaLA\\.next"
+      "D:\\NaLA\\.next",
+      "\\tmp"
     ]
   }
 }
