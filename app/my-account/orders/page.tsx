@@ -18,10 +18,17 @@ export default async function OrdersPage() {
     <AccountLayout>
       <h2 className="text-2xl">Orders</h2>
       {orders.length === 0 ? (
-        <p className="mt-3 text-muted">
-          No orders yet (or order history isn&apos;t connected — configure the
-          WooCommerce REST API keys).
-        </p>
+        <div className="mt-6 rounded-lg border border-line bg-white p-8 text-center">
+          <p className="text-ink-soft">You have no orders yet.</p>
+          <Link
+            href="https://shop.nalalifeline.org/shop/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block font-bold !text-cyan-700 hover:underline"
+          >
+            Start shopping →
+          </Link>
+        </div>
       ) : (
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[680px] border-collapse rounded-lg bg-white shadow-sm">
