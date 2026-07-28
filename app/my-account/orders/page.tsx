@@ -71,7 +71,7 @@ export default async function OrdersPage() {
                     <td className="p-3">
                       <div className="flex flex-wrap gap-2">
                         {o.needs_payment && (
-                          <OrderButton href={`/my-account/orders/${o.id}/pay`}>
+                          <OrderButton href={`/my-account/view-order/${o.id}/pay`}>
                             Pay
                           </OrderButton>
                         )}
@@ -83,7 +83,7 @@ export default async function OrdersPage() {
                           <OrderButton
                             variant="navy"
                             newTab
-                            href={`/my-account/orders/${o.id}/invoice`}
+                            href={`/my-account/view-order/${o.id}/invoice`}
                           >
                             PDF Invoice
                           </OrderButton>

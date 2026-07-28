@@ -106,13 +106,15 @@
       "Bash(mkdir -p 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay')",
       "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/page.tsx')",
       "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/pay/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay/page.tsx')",
-      "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/invoice/route.ts' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/invoice/route.ts')"
+      "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/invoice/route.ts' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/invoice/route.ts')",
+      "Bash(rm -rf \"c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]\" *)"
     ],
     "additionalDirectories": [
       "D:\\NaLA\\.next",
       "\\tmp",
       "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\view-order\\[id]\\pay",
-      "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\view-order\\[id]"
+      "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\view-order\\[id]",
+      "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\orders\\[id]"
     ]
   }
 }
