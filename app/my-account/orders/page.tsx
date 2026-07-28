@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/wc-admin";
-import { WP_URL } from "@/lib/config";
 import { AccountLayout } from "@/components/account/AccountLayout";
 import { CancelOrderButton } from "@/components/account/CancelOrderButton";
 
@@ -83,7 +82,8 @@ export default async function OrdersPage() {
                         {o.status === "completed" && (
                           <OrderButton
                             variant="navy"
-                            href={`${WP_URL}/checkout/order-received/${o.id}/?key=${o.order_key}`}
+                            newTab
+                            href={`/my-account/orders/${o.id}/invoice`}
                           >
                             PDF Invoice
                           </OrderButton>
@@ -105,16 +105,18 @@ function OrderButton({
   href,
   children,
   variant = "cyan",
+  newTab = false,
 }: {
   href: string;
   children: React.ReactNode;
   variant?: "cyan" | "navy";
+  newTab?: boolean;
 }) {
   const color =
     variant === "navy" ? "bg-navy hover:bg-navy-dark" : "bg-cyan hover:bg-cyan-700";
   const cls = `inline-flex cursor-pointer items-center justify-center rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide !text-white transition-colors ${color}`;
 
-  if (href.startsWith("/")) {
+  if (href.startsWith("/") && !newTab) {
     return (
       <Link href={href} className={cls}>
         {children}

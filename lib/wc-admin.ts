@@ -7,11 +7,22 @@ import { WC_API, WC_CONSUMER_KEY, WC_CONSUMER_SECRET } from "./config";
  * order history). Never import this into client components.
  */
 
+export interface WcMetaData {
+  id: number;
+  key: string;
+  value: unknown;
+  display_key?: string;
+  display_value?: unknown;
+}
+
 export interface WcOrderLineItem {
   id: number;
   name: string;
   quantity: number;
   total: string;
+  total_tax?: string;
+  price?: number;
+  meta_data?: WcMetaData[];
 }
 
 export interface WcAddress {
@@ -28,6 +39,12 @@ export interface WcAddress {
   phone?: string;
 }
 
+export interface WcTaxLine {
+  id: number;
+  label: string;
+  tax_total: string;
+}
+
 export interface WcOrderDetail extends WcOrder {
   customer_id: number;
   discount_total: string;
@@ -35,6 +52,8 @@ export interface WcOrderDetail extends WcOrder {
   total_tax: string;
   payment_method_title: string;
   billing: WcAddress;
+  meta_data?: WcMetaData[];
+  tax_lines?: WcTaxLine[];
 }
 
 export interface WcOrder {

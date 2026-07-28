@@ -158,6 +158,16 @@ export default async function OrderDetailPage({
               Pay {money(sym, order.total)}
             </Link>
           )}
+          {order.status === "completed" && (
+            <a
+              href={`/my-account/orders/${order.id}/invoice`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex cursor-pointer items-center justify-center rounded-full bg-navy px-6 py-2.5 text-sm font-bold uppercase tracking-wide !text-white transition-colors hover:bg-navy-dark"
+            >
+              PDF Invoice
+            </a>
+          )}
           {order.status === "failed" && <CancelOrderButton id={order.id} />}
         </div>
       </Container>
