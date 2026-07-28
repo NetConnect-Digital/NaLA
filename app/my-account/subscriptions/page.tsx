@@ -21,7 +21,7 @@ export default async function SubscriptionsPage() {
         <div className="mt-6 rounded-lg border border-line bg-white p-8 text-center">
           <p className="text-ink-soft">You have no active subscriptions.</p>
           <Link
-            href="https://nalalifeline.org/membership/"
+            href="https://shop.nalalifeline.org/shop/"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block font-bold !text-cyan-700 hover:underline"
