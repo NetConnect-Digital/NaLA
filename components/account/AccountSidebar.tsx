@@ -62,6 +62,18 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    label: "Downloads",
+    href: "/my-account/downloads",
+    prefix: true,
+    icon: (
+      <>
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </>
+    ),
+  },
+  {
     label: "Coupons",
     href: "/my-account/coupons",
     prefix: true,
@@ -91,6 +103,18 @@ const NAV: NavItem[] = [
       <>
         <rect x="2" y="5" width="20" height="14" rx="2" />
         <path d="M2 10h20" />
+      </>
+    ),
+  },
+  {
+    label: "Account details",
+    href: "/my-account/edit-account",
+    prefix: true,
+    icon: (
+      <>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
+        <path d="M18 2l2 2-7 7H11v-2z" />
       </>
     ),
   },
