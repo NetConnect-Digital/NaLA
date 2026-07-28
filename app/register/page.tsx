@@ -1,10 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Script from "next/script";
 import { Container, Section } from "@/components/ui/Container";
 import { useRegister } from "@/lib/auth-hooks";
+import { RECAPTCHA_SITE_KEY } from "@/lib/config";
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      render: (
+        container: HTMLElement,
+        params: { sitekey: string },
+      ) => number;
+      getResponse: (widgetId?: number) => string;
+      reset: (widgetId?: number) => void;
+    };
+  }
+}
 
 const MEMBER_TYPES = [
   "Lifeline ETC/Provider",
@@ -49,13 +65,34 @@ export default function RegisterPage() {
   const register = useRegister();
   const [error, setError] = useState("");
   const [pw, setPw] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const level = pw ? pwLevel(pw) : null;
+
+  const recaptchaRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<number | null>(null);
+  const [recaptchaReady, setRecaptchaReady] = useState(false);
+
+  useEffect(() => {
+    if (!recaptchaReady || !RECAPTCHA_SITE_KEY || !window.grecaptcha) return;
+    window.grecaptcha.ready(() => {
+      if (widgetId.current !== null || !recaptchaRef.current || !window.grecaptcha) return;
+      widgetId.current = window.grecaptcha.render(recaptchaRef.current, {
+        sitekey: RECAPTCHA_SITE_KEY,
+      });
+    });
+  }, [recaptchaReady]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     const form = new FormData(e.currentTarget);
     const get = (k: string) => String(form.get(k) ?? "").trim();
+
+    const recaptchaToken = window.grecaptcha?.getResponse(widgetId.current ?? undefined) ?? "";
+    if (RECAPTCHA_SITE_KEY && !recaptchaToken) {
+      setError("Please check the box to confirm you're not a robot.");
+      return;
+    }
 
     const password = get("password");
     if (password.length < 6) {
@@ -82,17 +119,27 @@ export default function RegisterPage() {
         company: get("company"),
         website: get("website"),
         description: get("description"),
+        recaptchaToken,
       },
       {
         onSuccess: (data) => router.push(data?.autoLoggedIn ? "/my-account" : "/login"),
-        onError: (err) =>
-          setError(err instanceof Error ? err.message : "Registration failed"),
+        onError: (err) => {
+          setError(err instanceof Error ? err.message : "Registration failed");
+          window.grecaptcha?.reset(widgetId.current ?? undefined);
+        },
       },
     );
   }
 
   return (
     <Section>
+      {RECAPTCHA_SITE_KEY && (
+        <Script
+          src="https://www.google.com/recaptcha/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={() => setRecaptchaReady(true)}
+        />
+      )}
       <Container>
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl md:text-4xl">It&apos;s FREE to Join!</h1>
@@ -125,6 +172,25 @@ export default function RegisterPage() {
           </Row>
           <Row label="Last Name" required>
             <input name="last_name" required autoComplete="family-name" className={fieldCls} />
+          </Row>
+          <Row label="Avatar" help="Optional: Upload an avatar (picture) to be more easily identified.">
+            <div className="flex items-center gap-3">
+              <label
+                htmlFor="avatar"
+                className="inline-flex cursor-pointer items-center justify-center rounded-full border border-black/[0.16] bg-black/[0.02] px-6 py-2 text-sm font-semibold text-ink-soft hover:border-cyan hover:text-cyan"
+              >
+                Upload
+              </label>
+              <input
+                id="avatar"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
+              />
+              {avatarFile && <span className="text-sm text-ink-soft">{avatarFile.name}</span>}
+            </div>
           </Row>
 
           <SectionHeading>Contact Info</SectionHeading>
@@ -173,6 +239,14 @@ export default function RegisterPage() {
           </Row>
           <Row label="Repeat Password" required>
             <input name="password2" type="password" required autoComplete="new-password" className={fieldCls} />
+          </Row>
+
+          <Row
+            label="Prove You're Human"
+            required
+            help="Check the box and enter the number you see appear, if prompted."
+          >
+            <div ref={recaptchaRef} />
           </Row>
 
           {error && (

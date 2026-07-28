@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getWcOrder } from "@/lib/wc-admin";
 import { Container, Section } from "@/components/ui/Container";
+import { CancelOrderButton } from "@/components/account/CancelOrderButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Order Details" };
@@ -157,6 +158,7 @@ export default async function OrderDetailPage({
               Pay {money(sym, order.total)}
             </Link>
           )}
+          {order.status === "failed" && <CancelOrderButton id={order.id} />}
         </div>
       </Container>
     </Section>

@@ -54,7 +54,14 @@ export async function PUT(req: NextRequest) {
 
   const result = await updateWcCustomer(user.id, update);
   if (!result.ok) {
-    return NextResponse.json({ message: result.message }, { status: 400 });
+    // WooCommerce refuses password changes via this endpoint for elevated
+    // roles (staff/admin accounts) as a deliberate security guard.
+    const message = /password cannot be updated via this endpoint/i.test(
+      result.message ?? "",
+    )
+      ? "This account has staff/admin privileges, so its password can only be changed from the WordPress dashboard directly. Contact your site administrator for help."
+      : result.message;
+    return NextResponse.json({ message }, { status: 400 });
   }
   return NextResponse.json({ ok: true });
 }

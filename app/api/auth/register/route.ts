@@ -1,15 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { JWT_NS, setToken, extractJwt } from "@/lib/auth";
+import { verifyRecaptcha } from "@/lib/recaptcha-server";
 
 /**
- * POST /api/auth/register { email, password, first_name?, last_name? }
+ * POST /api/auth/register { email, password, first_name?, last_name?, recaptchaToken }
  * Registers via the JWT plugin's user endpoint, then logs the user in.
  */
 export async function POST(req: NextRequest) {
-  const body = (await req.json().catch(() => ({}))) as Record<string, string>;
+  const { recaptchaToken, ...body } = (await req.json().catch(() => ({}))) as Record<
+    string,
+    string
+  >;
   const { email, password } = body;
   if (!email || !password) {
     return NextResponse.json({ message: "Email and password are required." }, { status: 400 });
+  }
+
+  if (!(await verifyRecaptcha(recaptchaToken ?? ""))) {
+    return NextResponse.json(
+      { message: "Robot check failed. Please try again." },
+      { status: 400 },
+    );
   }
 
   const regRes = await fetch(`${JWT_NS}/users`, {

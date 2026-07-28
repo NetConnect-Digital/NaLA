@@ -235,6 +235,16 @@ export async function cancelSubscription(
   return { ok, message };
 }
 
+/** Cancel an order (wc/v3). */
+export async function cancelOrder(
+  id: number,
+): Promise<{ ok: boolean; message?: string }> {
+  const { ok, message } = await wcWrite(`/orders/${id}`, {
+    status: "cancelled",
+  });
+  return { ok, message };
+}
+
 /** A customer's downloadable products (wc/v3). Empty when none / keys missing. */
 export async function getCustomerDownloads(id: number): Promise<WcDownload[]> {
   const auth = authHeader();

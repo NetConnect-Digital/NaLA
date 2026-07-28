@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/wc-admin";
 import { WP_URL } from "@/lib/config";
 import { AccountLayout } from "@/components/account/AccountLayout";
+import { CancelOrderButton } from "@/components/account/CancelOrderButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Orders" };
@@ -71,6 +72,7 @@ export default async function OrdersPage() {
                         <OrderButton href={`/my-account/orders/${o.id}`}>
                           View
                         </OrderButton>
+                        {o.status === "failed" && <CancelOrderButton id={o.id} />}
                         {o.status === "completed" && (
                           <OrderButton
                             variant="navy"

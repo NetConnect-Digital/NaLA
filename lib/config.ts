@@ -20,6 +20,11 @@ export const STRIPE_PUBLISHABLE_KEY =
 /** Server-only Stripe secret key (do not expose to the client). */
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
 
+export const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+
+/** Server-only reCAPTCHA secret key (do not expose to the client). */
+export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY ?? "";
+
 /** httpOnly cookie names */
 export const AUTH_COOKIE = "nala_token";
 export const CART_TOKEN_COOKIE = "nala_cart_token";
