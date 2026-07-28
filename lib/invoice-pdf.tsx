@@ -121,7 +121,9 @@ const styles = StyleSheet.create({
   metaTable: { marginTop: 20, borderTopWidth: 1, borderTopColor: "#dbe1ea", paddingTop: 10 },
   metaRow: { flexDirection: "row", marginBottom: 3 },
   metaLabel: { width: 110, color: "#5a6472" },
-  metaValue: { fontFamily: "Helvetica-Bold" },
+  metaLabel2: { width: 90, color: "#5a6472" },
+  metaValue: { width: 130, fontFamily: "Helvetica-Bold" },
+  metaValue2: { fontFamily: "Helvetica-Bold" },
   sectionTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 16, marginBottom: 6 },
   address: { lineHeight: 1.4 },
   table: { marginTop: 8, borderWidth: 1, borderColor: "#dbe1ea" },
@@ -180,14 +182,14 @@ export async function renderInvoicePdf(order: WcOrderDetail): Promise<Buffer> {
           <View style={styles.metaRow}>
             <Text style={styles.metaLabel}>Invoice No.</Text>
             <Text style={styles.metaValue}>{meta.invoiceNumber}</Text>
-            <Text style={[styles.metaLabel, { marginLeft: 40 }]}>Order No.</Text>
-            <Text style={styles.metaValue}>{order.number}</Text>
+            <Text style={styles.metaLabel2}>Order No.</Text>
+            <Text style={styles.metaValue2}>{order.number}</Text>
           </View>
           <View style={styles.metaRow}>
             <Text style={styles.metaLabel}>Invoice Date</Text>
             <Text style={styles.metaValue}>{meta.invoiceDate}</Text>
-            <Text style={[styles.metaLabel, { marginLeft: 40 }]}>Order Date</Text>
-            <Text style={styles.metaValue}>{meta.orderDate}</Text>
+            <Text style={styles.metaLabel2}>Order Date</Text>
+            <Text style={styles.metaValue2}>{meta.orderDate}</Text>
           </View>
           {order.payment_method_title && (
             <View style={styles.metaRow}>

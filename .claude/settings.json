@@ -93,7 +93,8 @@
       "Bash(identify public/brand/logo.png)",
       "Bash(node -e \"console.log\\('size check only'\\)\")",
       "Bash(node -e \" *)",
-      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice.pdf --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/orders/19698/invoice)"
+      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice.pdf --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/orders/19698/invoice)",
+      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice2.pdf --cookie nala_token=eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNzg1MjM0MTcwfQ.sig http://localhost:3000/my-account/orders/19698/invoice)"
     ],
     "additionalDirectories": [
       "D:\\NaLA\\.next",
