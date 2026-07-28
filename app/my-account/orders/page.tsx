@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/wc-admin";
@@ -51,7 +51,7 @@ export default async function OrdersPage() {
                   <tr key={o.id} className="border-b border-line align-middle">
                     <td className="p-3 font-bold">
                       <Link
-                        href={`/my-account/orders/${o.id}`}
+                        href={`/my-account/view-order/${o.id}`}
                         className="!text-cyan-700 hover:underline"
                       >
                         #{o.number}
@@ -75,7 +75,7 @@ export default async function OrdersPage() {
                             Pay
                           </OrderButton>
                         )}
-                        <OrderButton href={`/my-account/orders/${o.id}`}>
+                        <OrderButton href={`/my-account/view-order/${o.id}`}>
                           View
                         </OrderButton>
                         {o.status === "failed" && <CancelOrderButton id={o.id} />}

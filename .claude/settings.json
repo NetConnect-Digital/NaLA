@@ -94,11 +94,25 @@
       "Bash(node -e \"console.log\\('size check only'\\)\")",
       "Bash(node -e \" *)",
       "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice.pdf --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/orders/19698/invoice)",
-      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice2.pdf --cookie nala_token=eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNzg1MjM0MTcwfQ.sig http://localhost:3000/my-account/orders/19698/invoice)"
+      "Bash(curl -s -D - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/test-invoice2.pdf --cookie nala_token=eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNzg1MjM0MTcwfQ.sig http://localhost:3000/my-account/orders/19698/invoice)",
+      "Bash(sed -i 's|/my-account/orders|/my-account/view-order|g' \"c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay/page.tsx\")",
+      "Bash(sed -i 's|/my-account/orders|/my-account/view-order|g' \"c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/page.tsx\")",
+      "Bash(cp -r 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders')",
+      "Bash(echo \"Copied\")",
+      "Bash(cp -r 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order-tmp')",
+      "Bash(cp -r 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order-tmp/.' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/')",
+      "Bash(find 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order' -type f)",
+      "Bash(mkdir -p 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/invoice')",
+      "Bash(mkdir -p 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay')",
+      "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/page.tsx')",
+      "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/pay/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay/page.tsx')",
+      "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/invoice/route.ts' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/invoice/route.ts')"
     ],
     "additionalDirectories": [
       "D:\\NaLA\\.next",
-      "\\tmp"
+      "\\tmp",
+      "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\view-order\\[id]\\pay",
+      "c:\\Users\\georg\\OneDrive\\Documents\\Claude AI\\NaLA\\app\\my-account\\view-order\\[id]"
     ]
   }
 }

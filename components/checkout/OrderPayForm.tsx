@@ -74,7 +74,7 @@ export function OrderPayForm({
       }
 
       // Success → back to the order, now marked paid.
-      router.push(`/my-account/orders/${orderId}`);
+      router.push(`/my-account/view-order/${orderId}`);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
