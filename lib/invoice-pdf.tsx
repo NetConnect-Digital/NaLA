@@ -11,7 +11,8 @@ import {
   Font,
   renderToBuffer,
 } from "@react-pdf/renderer";
-import type { WcOrderDetail, WcMetaData } from "./wc-admin";
+import type { WcOrderDetail } from "./wc-admin";
+import { getLineItemFields } from "./order-item-fields";
 
 Font.registerHyphenationCallback((word) => [word]);
 
@@ -26,63 +27,6 @@ const FALLBACK_COMPANY = {
   detailLines: ["info@nalalifeline.org", "www.nalalifeline.org"],
   registeredAddress: "415 McFarlan Rd, Suite 108 Kennett Square, PA 19348",
 };
-
-/** Friendly labels for the certification application's custom line-item fields (`_wccf_pf_*` meta). */
-const FIELD_LABELS: Record<string, string> = {
-  add_first_name: "First Name",
-  add_last_name: "Last Name",
-  add_phone_number: "Phone Number",
-  add_email_address: "Email Address",
-  supervisor_email: "Supervisor Email",
-  companies_you_distribute_for: "Companies You Distribute For",
-  states_distributing: "States Distributing In",
-  home1_address: "Home Address",
-  city_add: "City",
-  add_state: "State",
-  add_zip_code: "Zip Code",
-  dateofbirth: "Date of Birth (m/d/yyyy)",
-};
-
-function humanizeFieldKey(base: string): string {
-  return base
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-/** Resolve a coded value (e.g. `{"1":"iw","2":"ew"}`) against its sibling `_data_` meta's label dictionary. */
-function resolveCodedValue(value: unknown, dataMeta: WcMetaData | undefined): string {
-  if (value && typeof value === "object" && !Array.isArray(value)) {
-    const labels =
-      dataMeta &&
-      typeof dataMeta.value === "object" &&
-      dataMeta.value !== null &&
-      "labels" in (dataMeta.value as Record<string, unknown>)
-        ? ((dataMeta.value as Record<string, unknown>).labels as Record<string, string>)
-        : undefined;
-    return Object.values(value as Record<string, string>)
-      .map((code) => labels?.[code] ?? code)
-      .join(", ");
-  }
-  return String(value ?? "");
-}
-
-/** Extract the customer-facing "(Label:Value)" lines shown under a certification line item. */
-function getLineItemFields(meta: WcMetaData[] | undefined): { label: string; value: string }[] {
-  if (!meta?.length) return [];
-  const byKey = new Map(meta.map((m) => [m.key, m]));
-  const fields: { label: string; value: string }[] = [];
-
-  for (const m of meta) {
-    if (!m.key.startsWith("_wccf_pf_")) continue;
-    const rest = m.key.slice("_wccf_pf_".length);
-    if (rest.startsWith("id_") || rest.startsWith("data_")) continue;
-
-    const value = resolveCodedValue(m.value, byKey.get(`_wccf_pf_data_${rest}`));
-    if (!value) continue;
-    fields.push({ label: FIELD_LABELS[rest] ?? humanizeFieldKey(rest), value });
-  }
-  return fields;
-}
 
 function invoiceMeta(order: WcOrderDetail) {
   const raw = order.meta_data?.find((m) => m.key === "_invoice_meta")?.value as
@@ -134,6 +78,7 @@ const styles = StyleSheet.create({
   colProduct: { flex: 3 },
   colNum: { flex: 1, textAlign: "right" },
   fieldLine: { fontSize: 8.5, color: "#5a6472", marginTop: 1.5 },
+  fieldChildLine: { fontSize: 8.5, color: "#5a6472", marginTop: 1, marginLeft: 10 },
   totals: { marginTop: 10, alignItems: "flex-end" },
   totalsRow: { flexDirection: "row", width: 200, justifyContent: "space-between", marginBottom: 3 },
   totalsRowFinal: {
@@ -243,11 +188,22 @@ export async function renderInvoicePdf(order: WcOrderDetail): Promise<Buffer> {
                   <Text>
                     {qty} x {li.name}
                   </Text>
-                  {fields.map((f) => (
-                    <Text key={f.label} style={styles.fieldLine}>
-                      ({f.label}:{f.value})
-                    </Text>
-                  ))}
+                  {fields.map((f) =>
+                    f.children ? (
+                      <View key={f.label}>
+                        <Text style={styles.fieldLine}>{f.label}:</Text>
+                        {f.children.map((c) => (
+                          <Text key={c.label} style={styles.fieldChildLine}>
+                            ({c.label}:{c.value})
+                          </Text>
+                        ))}
+                      </View>
+                    ) : (
+                      <Text key={f.label} style={styles.fieldLine}>
+                        ({f.label}:{f.value})
+                      </Text>
+                    ),
+                  )}
                 </View>
                 <Text style={[styles.tCell, styles.colNum]}>{money(sym, priceEx)}</Text>
                 <Text style={[styles.tCell, styles.colNum]}>{money(sym, totalEx)}</Text>

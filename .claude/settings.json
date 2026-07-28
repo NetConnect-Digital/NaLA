@@ -107,7 +107,13 @@
       "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/page.tsx')",
       "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/pay/page.tsx' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/pay/page.tsx')",
       "Bash(cp 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]/invoice/route.ts' 'c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/view-order/[id]/invoice/route.ts')",
-      "Bash(rm -rf \"c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]\" *)"
+      "Bash(rm -rf \"c:/Users/georg/OneDrive/Documents/Claude AI/NaLA/app/my-account/orders/[id]\" *)",
+      "Bash(curl -s -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order21188.html --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/view-order/21188)",
+      "Bash(curl -sD - -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order21188.html --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/view-order/21188)",
+      "Bash(curl -sL -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order21188.html --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/view-order/21188/)",
+      "Bash(grep -o '<details[^>]*>.\\\\{0,2000\\\\}</details>' \"C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order21188.html\")",
+      "Bash(curl -sL -o __TRACKED_VAR__/order42146.html --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/view-order/42146/)",
+      "Bash(curl -sL -o C:/Users/rekha/AppData/Local/Temp/claude/d--NaLA/308ae1d9-f752-4ba0-8918-843020e51d01/scratchpad/order21188b.html --cookie nala_token=__CMDSUB_OUTPUT__ http://localhost:3000/my-account/view-order/21188/)"
     ],
     "additionalDirectories": [
       "D:\\NaLA\\.next",

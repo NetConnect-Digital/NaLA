@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getWcOrder } from "@/lib/wc-admin";
+import { getLineItemFields } from "@/lib/order-item-fields";
 import { Container, Section } from "@/components/ui/Container";
 import { CancelOrderButton } from "@/components/account/CancelOrderButton";
 
@@ -82,15 +83,55 @@ export default async function OrderDetailPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {order.line_items.map((li) => (
-                    <tr key={li.id} className="border-b border-line last:border-0">
-                      <td className="p-3 text-ink-soft">{li.name}</td>
-                      <td className="p-3 text-center text-ink-soft">{li.quantity}</td>
-                      <td className="p-3 text-right font-bold text-navy">
-                        {money(sym, li.total)}
-                      </td>
-                    </tr>
-                  ))}
+                  {order.line_items.map((li) => {
+                    const fields = getLineItemFields(li.meta_data);
+                    return (
+                      <tr key={li.id} className="border-b border-line last:border-0">
+                        <td className="p-3 text-ink-soft">
+                          {fields.length > 0 ? (
+                            <details className="group">
+                              <summary className="cursor-pointer list-none">
+                                <span className="inline-flex items-center gap-1.5">
+                                  {li.name}
+                                  <span className="text-xs text-cyan-700 transition-transform group-open:rotate-180">
+                                    ▾
+                                  </span>
+                                </span>
+                              </summary>
+                              <dl className="mt-2 space-y-1 border-l-2 border-line pl-3 text-sm">
+                                {fields.map((f) =>
+                                  f.children ? (
+                                    <div key={f.label} className="space-y-1">
+                                      <dt className="font-bold text-navy">{f.label}</dt>
+                                      <dd className="ml-3 space-y-1 border-l-2 border-line pl-3">
+                                        {f.children.map((c) => (
+                                          <div key={c.label} className="flex flex-wrap gap-1">
+                                            <span className="font-bold text-navy">{c.label}:</span>
+                                            <span className="text-ink-soft">{c.value}</span>
+                                          </div>
+                                        ))}
+                                      </dd>
+                                    </div>
+                                  ) : (
+                                    <div key={f.label} className="flex flex-wrap gap-1">
+                                      <dt className="font-bold text-navy">{f.label}:</dt>
+                                      <dd className="text-ink-soft">{f.value}</dd>
+                                    </div>
+                                  ),
+                                )}
+                              </dl>
+                            </details>
+                          ) : (
+                            li.name
+                          )}
+                        </td>
+                        <td className="p-3 text-center text-ink-soft">{li.quantity}</td>
+                        <td className="p-3 text-right font-bold text-navy">
+                          {money(sym, li.total)}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
