@@ -55,6 +55,24 @@ function TicketFieldInput({
     );
   }
 
+  if (field.type === "checkbox") {
+    const checkedValue = field.checkedValue ?? "on";
+    return (
+      <fieldset>
+        <FieldLabel field={field} />
+        <label className="flex items-start gap-2 text-[15px] text-ink-soft">
+          <input
+            type="checkbox"
+            checked={value === checkedValue}
+            onChange={(e) => onChange(e.target.checked ? checkedValue : "")}
+            className="mt-1"
+          />
+          <span>{field.checkboxLabel}</span>
+        </label>
+      </fieldset>
+    );
+  }
+
   if (field.type === "radio") {
     return (
       <fieldset>

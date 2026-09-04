@@ -9,7 +9,7 @@
  * edit the `label`/`options` here to match a copy change on the live site.
  */
 
-export type TicketFieldType = "text" | "radio" | "select";
+export type TicketFieldType = "text" | "radio" | "select" | "checkbox";
 
 export interface TicketField {
   key: string;
@@ -19,6 +19,9 @@ export interface TicketField {
   options?: string[];
   /** Only rendered when the field with this key is answered "Yes". */
   showIf?: { key: string; equals: string };
+  /** checkbox only: text shown beside the box, and the value submitted when ticked. */
+  checkboxLabel?: string;
+  checkedValue?: string;
 }
 
 export const TICKET_FIELDS: TicketField[] = [
@@ -138,6 +141,16 @@ export const TICKET_FIELDS: TicketField[] = [
     type: "radio",
     required: true,
     options: ["Yes", "No", "Not Sure"],
+  },
+  {
+    // FooEvents built-in privacy field (not one of the hashed custom fields).
+    // Submitted as ticket_fields[i][pii_preference]=opted-out when ticked.
+    key: "pii_preference",
+    label: "Privacy Preference",
+    type: "checkbox",
+    required: false,
+    checkboxLabel: "Opt-out from being displayed in the public list of attendees.",
+    checkedValue: "opted-out",
   },
 ];
 
