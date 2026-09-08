@@ -3,7 +3,7 @@
  * app runs against the live NaLA backend out of the box.
  */
 export const WP_URL = (
-  process.env.NEXT_PUBLIC_WP_URL ?? "https://shop.nalalifeline.org"
+  process.env.NEXT_PUBLIC_WP_URL ?? "https://nalalife.webdevonline.net/shop"
 ).replace(/\/$/, "");
 
 export const WP_API = `${WP_URL}/wp-json`;

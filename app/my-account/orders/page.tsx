@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/wc-admin";
+import { WP_URL } from "@/lib/config";
 import { AccountLayout } from "@/components/account/AccountLayout";
 import { CancelOrderButton } from "@/components/account/CancelOrderButton";
 
@@ -21,7 +22,7 @@ export default async function OrdersPage() {
         <div className="mt-6 rounded-lg border border-line bg-white p-8 text-center">
           <p className="text-ink-soft">You have no orders yet.</p>
           <Link
-            href="https://shop.nalalifeline.org/shop/"
+            href={`${WP_URL}/shop/`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block font-bold !text-cyan-700 hover:underline"

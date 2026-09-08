@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getCustomerSubscriptions } from "@/lib/wc-admin";
+import { WP_URL } from "@/lib/config";
 import { AccountLayout } from "@/components/account/AccountLayout";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,7 @@ export default async function SubscriptionsPage() {
         <div className="mt-6 rounded-lg border border-line bg-white p-8 text-center">
           <p className="text-ink-soft">You have no active subscriptions.</p>
           <Link
-            href="https://shop.nalalifeline.org/shop/"
+            href={`${WP_URL}/shop/`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block font-bold !text-cyan-700 hover:underline"

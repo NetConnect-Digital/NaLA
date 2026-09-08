@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { WP_URL } from "@/lib/config";
 
-const WP_MEDIA = "https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05";
+const WP_MEDIA = `${WP_URL}/wp-content/uploads/sites/3/2026/05`;
 
 const SLIDES = [
   { src: `${WP_MEDIA}/ak-pbiwk-golf-course-pool-27023_Classic-Hor.jpeg`, alt: "The Belgrove Resort aerial view" },

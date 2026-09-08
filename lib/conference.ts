@@ -10,6 +10,8 @@
  * funding pricing is membership-gated against the live WooCommerce config.
  */
 
+import { WP_URL } from "./config";
+
 export const CONFERENCE = {
   title: "2026 NaLA Annual Conference",
   dates: "October 21–22, 2026",
@@ -111,7 +113,7 @@ export const VENUE = {
 /* Returning sponsors                                                  */
 /* ------------------------------------------------------------------ */
 
-const WP_MEDIA = "https://shop.nalalifeline.org/wp-content/uploads/sites/3";
+const WP_MEDIA = `${WP_URL}/wp-content/uploads/sites/3`;
 
 export const SPONSORS: { name: string; logo: string }[] = [
   { name: "Nelson Mullins", logo: `${WP_MEDIA}/2024/08/Nelson-Mullins-500x250-1.png` },

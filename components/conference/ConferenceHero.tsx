@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { CONFERENCE } from "@/lib/conference";
+import { WP_URL } from "@/lib/config";
+
+const HERO_MEDIA = `${WP_URL}/wp-content/uploads/sites/3/2026/05`;
 
 /** NaLA conference emblem — ring of stars around the striped map mark. */
 function Emblem() {
@@ -23,14 +26,14 @@ export function ConferenceHero() {
       {/* Hero photo + gradient (baked into the asset); gradient above is the fallback */}
       <div
         className="pointer-events-none absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url(https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05/2026-Conference-Gradient-Background-W-Img.jpg)" }}
+        style={{ backgroundImage: `url(${HERO_MEDIA}/2026-Conference-Gradient-Background-W-Img.jpg)` }}
         aria-hidden
       />
 
       {/* Decorative radiating swoosh, anchored to the top-right corner */}
       <div
         className="pointer-events-none absolute -bottom-12 -right-12 h-56 w-56 scale-x-[-1] bg-right-bottom bg-contain bg-no-repeat opacity-90 md:-top-12 md:bottom-auto md:h-[30rem] md:w-[30rem] md:bg-right-top"
-        style={{ backgroundImage: "url(https://shop.nalalifeline.org/wp-content/uploads/sites/3/2026/05/Stars-and-Stripes.png)" }}
+        style={{ backgroundImage: `url(${HERO_MEDIA}/Stars-and-Stripes.png)` }}
         aria-hidden
       />
 

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     remotePatterns: [
+      { protocol: "https", hostname: "nalalife.webdevonline.net" },
       { protocol: "https", hostname: "shop.nalalifeline.org" },
       { protocol: "https", hostname: "nalalifeline.org" },
       { protocol: "https", hostname: "**.exactdn.com" },
